@@ -1,10 +1,5 @@
 <template>
-    <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="../assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
+    <header class="mb-5">
+        <h1 class="text-purple home-title"><i class="fa-brands fa-space-awesome"></i> TYPING-GAME <i class="fa-brands fa-space-awesome"></i></h1>
+    </header>
 </template>

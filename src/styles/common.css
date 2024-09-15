@@ -1,4 +1,29 @@
-.fire{
-    color:red;
-    background-color:blue;
+
+.text-purple{
+    color:#BB86FC;
 }
+body{
+    border:1px solid #BB86FC;
+    margin:30px;
+    background-color: #242424;
+}
+
+.home-button, .home-title  {
+    font-family: "RocknRoll One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.home-button {
+   border: 2px solid #BB86FC;
+   padding: 35px;
+   font-size: 20px;
+   font-weight: 500;
+   cursor: pointer;
+   color:#242424;
+   background-color:#BB86FC;
+   margin-top:100px;
+}
+.home-button:hover {
+    border-color: #646cff;
+  }

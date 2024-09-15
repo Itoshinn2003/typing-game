@@ -1,11 +1,12 @@
 <script setup lang="ts">
-// import HelloWorld from './components/HelloWorld.vue'
-function a() {
-    console.log('a');
-}
+import HomeButton from '../components/HomeButton.vue'
+
 </script>
 
 <template>
-  <p class="fire">Hello World!</p>
+  <div class="d-flex justify-content-around mt-5">
+    <HomeButton playStyle="normal"></HomeButton>
+    <HomeButton playStyle="noMusic"></HomeButton>
+  </div>
 </template>
 
