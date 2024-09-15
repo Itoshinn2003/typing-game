@@ -3,9 +3,15 @@
     color:#BB86FC;
 }
 body{
-    border:1px solid #BB86FC;
-    margin:30px;
     background-color: #242424;
+    padding:30px;
+}
+#app{
+    padding-top:30vh;
+    border:1px solid #BB86FC;
+    height:100%;
+    width:100%;
+    text-align:center;
 }
 
 .home-button, .home-title  {
@@ -21,7 +27,7 @@ body{
    font-weight: 500;
    cursor: pointer;
    color:#242424;
-   background-color:#BB86FC;
+   background-color:#9B59B6;
    margin-top:100px;
 }
 .home-button:hover {
