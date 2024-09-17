@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, } from 'vue'
 
 const props = defineProps({
     gameStyle: String,
@@ -17,5 +17,5 @@ function NamedButton(): String {
 </script>
 
 <template>
-    <button class="home-button">{{ NamedButton() }}</button>
+    <router-link v-bind:to="'/play'"><button class="home-button">{{ NamedButton() }}</button></router-link>
 </template>

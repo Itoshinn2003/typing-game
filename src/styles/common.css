@@ -4,15 +4,27 @@
 }
 body{
     background-color: #242424;
-    padding:30px;
 }
-#app{
+#app {
+    height:100%;
+    width:100%;
+}
+.app{
     padding-top:30vh;
-    border:1px solid #BB86FC;
     height:100%;
     width:100%;
     text-align:center;
 }
+.app:after { 
+    position: absolute;
+    border: 1px solid #BB86FC;
+    content:"";
+    top: 30px;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    pointer-events:none;
+} 
 
 .home-button, .home-title  {
     font-family: "RocknRoll One", sans-serif;
@@ -41,4 +53,7 @@ body{
    color:black;
    background-color:#ffffff;
    margin-top:100px;
+}
+li {
+     list-style:none;
 }
