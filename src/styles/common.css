@@ -57,3 +57,16 @@ body{
 li {
      list-style:none;
 }
+.bg-grey{
+    background-color:#242424;
+}
+.row>* {
+    padding-right:0;
+    padding-left:0;
+}
+.sidebar{
+    height:100vh;
+    border-right:0.5px solid rgb(53, 53, 53);
+    padding: 0 20px;
+    background-color:rgb(29, 29, 29);
+}
