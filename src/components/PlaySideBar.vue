@@ -1,20 +1,46 @@
 <script setup lang="ts">
-import { defineEmits } from "vue"
-const emits = defineEmits(['countdown']);
+import { defineEmits, defineProps, watch, ref } from "vue"
 
+const props = defineProps(['playing']);
+const emits = defineEmits(['countdown']);
+let interval;
+let elapsedTime = 0; 
+let formatElapsedTime = ref<String>('0:00');
+function formatTime(seconds: number) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+function updateDisplay() {
+    formatElapsedTime.value = formatTime(elapsedTime);
+}
+
+function startStopWatch() {
+  console.log(props.playing);
+    if (props.playing) { 
+        interval = setInterval(() => {
+            elapsedTime++;
+            updateDisplay();
+        }, 1000); 
+    }
+}
 function countdown() {
     emits('countdown',3);
 }
+
+
+watch(() =>props.playing, startStopWatch, {deep: true});
 </script>
 
 <template>
 <ul class="ul-1">
     <li>▽ Game-folder</li>
-      <ul class="ul-2"><li @click="countdown">START</li><li>STOP</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
+      <ul class="ul-2"><li @click="countdown">START</li><li>RESTART</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Settings</li>
       <ul class="ul-2"><li>TOP</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
-    <ul class="ul-2"><li class="text-danger">Time 04:24</li><li class="text-warning">Words 7</li></ul>
+    <ul class="ul-2"><li class="text-danger">Time<span>{{ formatElapsedTime }}</span></li><li class="text-warning">Words 7</li></ul>
     <li>▷ Dummy Folder</li>
 
 </ul>

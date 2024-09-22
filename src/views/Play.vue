@@ -5,6 +5,7 @@ import PlayTypingArea from '../components/PlayTypingArea.vue'
 import { ref } from "vue"
 let intervalId: number | null | NodeJS.Timeout;
 let Seconds = ref(4);
+let playing = ref<boolean>(false);
 function countdown(seconds: number) {
    if (intervalId) {
     clearInterval(intervalId); // インターバルをクリア
@@ -14,6 +15,7 @@ function countdown(seconds: number) {
     if (seconds == 0) {
       Seconds.value = seconds;
       seconds--;
+      playing.value = true;
     } else if (seconds < 0) {
       Seconds.value = -1;
       clearInterval(intervalId);
@@ -27,7 +29,7 @@ function countdown(seconds: number) {
 <template>
     <div class="row">
         <div class="col-2 sidebar">
-          <PlaySideBar v-on:countdown="countdown"></PlaySideBar>
+          <PlaySideBar v-on:countdown="countdown" :playing="playing"></PlaySideBar>
         </div>
         <div class="col-10 rightside">
           <PlayFakeTabs></PlayFakeTabs>
@@ -35,6 +37,7 @@ function countdown(seconds: number) {
             <p v-if="Seconds > 0 && Seconds < 4" class="text-white">{{  Seconds }}</p>
             <p v-else-if="Seconds == 0" class="text-white">START</p>
           </div>
+          <p class="text-white"></p>
         </div>
     </div>
     
