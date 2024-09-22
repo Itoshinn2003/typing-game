@@ -26,9 +26,9 @@ function ifChange() {
   </div>
   <div v-else>
     <div class="d-flex justify-content-evenly mt-5">
-      <HomeSelectButton gameStyle="twentyWords"></HomeSelectButton>
       <HomeSelectButton gameStyle="thirtyWords"></HomeSelectButton>
-      <HomeSelectButton gameStyle="thirtySeconds"></HomeSelectButton>
+      <HomeSelectButton gameStyle="tenSentences"></HomeSelectButton>
+      <HomeSelectButton gameStyle="tenFunctions"></HomeSelectButton>
     </div>
     <button class="back-button" @click="ifChange">BACK</button>
   </div>

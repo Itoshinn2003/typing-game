@@ -6,12 +6,12 @@ const props = defineProps({
 })
 
 function NamedButton(): String {
-    if (props.gameStyle == 'twentyWords') {
-        return '20単語'
-    } else if ( props.gameStyle == 'thirtyWords') {
+    if (props.gameStyle == 'thirtyWords') {
         return '30単語'
+    } else if ( props.gameStyle == 'tenSentences') {
+        return '10文章'
     } else {
-        return '30秒'
+        return '10関数'
     }
 }
 </script>
