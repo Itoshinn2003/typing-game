@@ -3,7 +3,7 @@
     color:#BB86FC;
 }
 body{
-    background-color: #242424;
+    background-color: #242424 !important;
 }
 #app {
     height:100%;
@@ -81,4 +81,16 @@ li {
 .countdown p {
     font-size:80px;
     font-weight:bold;
+}
+p {
+    margin:0;
+}
+.typing-word {
+    font-size:12px;
+}
+.text-gray{
+    color:#7c7c7c;
+}
+.text-blue{
+    color:#529dff;
 }

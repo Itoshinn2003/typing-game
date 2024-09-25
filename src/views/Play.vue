@@ -3,6 +3,7 @@ import PlayFakeTabs from '../components/PlayFakeTabs.vue'
 import PlaySideBar from '../components/PlaySideBar.vue'
 import PlayTypingArea from '../components/PlayTypingArea.vue'
 import { ref } from "vue"
+
 let intervalId: number | null | NodeJS.Timeout;
 let Seconds = ref(4);
 let playing = ref<boolean>(false);
@@ -37,7 +38,7 @@ function countdown(seconds: number) {
             <p v-if="Seconds > 0 && Seconds < 4" class="text-white">{{  Seconds }}</p>
             <p v-else-if="Seconds == 0" class="text-white">START</p>
           </div>
-          <p class="text-white"></p>
+          <PlayTypingArea></PlayTypingArea>
         </div>
     </div>
     
