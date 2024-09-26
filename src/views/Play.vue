@@ -9,7 +9,7 @@ let Seconds = ref(4);
 let playing = ref<boolean>(false);
 function countdown(seconds: number) {
    if (intervalId) {
-    clearInterval(intervalId); // インターバルをクリア
+    clearInterval(intervalId); 
     intervalId = null;
    }
    intervalId = setInterval(() => {
@@ -28,7 +28,7 @@ function countdown(seconds: number) {
 }
 </script>
 <template>
-    <div class="row">
+    <div class="row" >
         <div class="col-2 sidebar">
           <PlaySideBar v-on:countdown="countdown" :playing="playing"></PlaySideBar>
         </div>
