@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, watch, ref } from "vue"
+import  router  from "../router"
 
+const Router=router;
 const props = defineProps(['playing']);
 const emits = defineEmits(['countdown']);
 let interval;
@@ -28,7 +30,9 @@ function startStopWatch() {
 function countdown() {
     emits('countdown',3);
 }
-
+function navigateHome() {
+      Router.push('/');
+    }
 
 watch(() =>props.playing, startStopWatch, {deep: true});
 </script>
@@ -38,7 +42,7 @@ watch(() =>props.playing, startStopWatch, {deep: true});
     <li>▽ Game-folder</li>
       <ul class="ul-2"><li @click="countdown">START</li><li>RESTART</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Settings</li>
-      <ul class="ul-2"><li>TOP</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
+      <ul class="ul-2"><li @click="navigateHome">TOP</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
     <ul class="ul-2"><li class="text-danger">Time<span>{{ formatElapsedTime }}</span></li><li class="text-warning">Words 7</li></ul>
     <li>▷ Dummy Folder</li>

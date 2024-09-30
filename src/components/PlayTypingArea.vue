@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch, onUpdated } from 'vue';
 import Prism from 'prismjs';
 import 'prismjs/prism';
 import 'prismjs/components/prism-markup.js';
@@ -13,7 +13,7 @@ const firstCode: String =
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bootstrap demo</title>
+        <title>TYPING-CODE</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     </head>
     <body>
@@ -24,13 +24,19 @@ const endCode: String =
     </head>
 </html>`
 
+const middleFirstCode: String =`<p>`
+const middleEndCode: String =`</p>`
 onMounted(() => {
     Prism.highlightAll();
 });
-console.log(words);
+onUpdated(() => {
+    Prism.highlightAll();
+    console.log('a');
+})
 
-
-function inputWord(event: any) {
+// もっと簡潔なコードにしたい
+// @keydownだとそのタグの要素の中でクリックしないとイベント発火しなかったのでaddEventListnerで記述
+document.addEventListener('keydown', (event) => {
     for (let i = 0; i < words.length; i++) {
         if (wordCount.value == i) {
             for (let j = 0; j < words[i].length; j++) {
@@ -44,14 +50,14 @@ function inputWord(event: any) {
             }
         }
     }
-}
+});
 </script>
 <template>
-    <div class="text-white typing-word" @keydown="inputWord">
+    <div class="text-white typing-word">
         <pre><code class="language-html">{{ firstCode }}</code></pre>
         <ul>
-            <li v-for="(word, index) in words" :key="index" >
-                <li v-if=" index <= wordCount ">{{ word }}</li>
+            <li v-for="(word, index) in words" :key="index">
+                <li class="d-inline" v-if=" index <= wordCount "><pre class="d-inline"><code class="language-html">        {{ middleFirstCode }}</code></pre>{{ word }}<pre class="d-inline"><code class="language-html">{{ middleEndCode }}</code></pre></li>
             </li>
         </ul>
         <pre><code class="language-html">{{ endCode }}</code></pre>

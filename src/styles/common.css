@@ -3,7 +3,7 @@
     color:#BB86FC;
 }
 body{
-    background-color: #242424 ;
+    background-color: white ;
 }
 #app {
     height:100%;
@@ -17,7 +17,7 @@ body{
 }
 .app:after { 
     position: absolute;
-    border: 1px solid #BB86FC;
+    border: 1px solid #0c8ad9;
     content:"";
     top: 30px;
     bottom: 30px;
@@ -33,13 +33,13 @@ body{
 }
 
 .home-button {
-   border: 2px solid #BB86FC;
+   border: 2px solid #1c3e8d;
    padding: 35px;
    font-size: 20px;
    font-weight: 500;
    cursor: pointer;
-   color:#242424;
-   background-color:#9B59B6;
+   color:white;
+   background-color:#009dff;
    margin-top:100px;
 }
 .home-button:hover {
@@ -93,4 +93,7 @@ p {
 }
 .text-blue{
     color:#529dff;
+}
+.bg-black{
+    background-color:#242424;
 }

@@ -18,7 +18,7 @@ function ifChange() {
 </script>
 
 <template>
-  <div class="app">
+  <div class="app" >
   <TheHeader></TheHeader>
   <div class="d-flex justify-content-evenly mt-5" v-if="isPlayStyle">
     <HomePlayButton playStyle="normal" :isPlayStyle=isPlayStyle @changeHomeState="ifChange"></HomePlayButton>

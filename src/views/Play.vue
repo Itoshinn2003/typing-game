@@ -28,7 +28,7 @@ function countdown(seconds: number) {
 }
 </script>
 <template>
-    <div class="row" >
+    <div class="row bg-grey" >
         <div class="col-2 sidebar">
           <PlaySideBar v-on:countdown="countdown" :playing="playing"></PlaySideBar>
         </div>
