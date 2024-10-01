@@ -6,6 +6,8 @@ import 'prismjs/components/prism-markup.js';
 import 'prismjs/themes/prism-tomorrow.css'; 
 
 const props = defineProps(['playing']);
+const emits = defineEmits(['stopStopWatch', 'wordsCount']);
+
 let words: String[] = ['ringo','budou','nashi','itigo'];
 let wordCount = ref< number >(-1);
 let letterCount: number = 0;
@@ -52,6 +54,19 @@ document.addEventListener('keydown', (event) => {
         }
     }
 });
+function stopStopWatch() {
+  emits('stopStopWatch');
+}
+function wordsCount() {
+    emits('wordsCount',wordCount)
+}
+
+watch(wordCount,() => {
+    if (wordCount.value == words.length) {
+        stopStopWatch();
+    }
+    wordsCount();
+}, {deep:true})
 
 watch(() =>props.playing,() => {
     if (!props.playing) {
@@ -60,6 +75,7 @@ watch(() =>props.playing,() => {
         wordCount.value = 0
     }
 },{deep:true})
+
 </script>
 <template>
     <div class="text-white typing-word">

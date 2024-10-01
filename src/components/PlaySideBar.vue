@@ -3,7 +3,7 @@ import { defineEmits, defineProps, watch, ref } from "vue"
 import  router  from "../router"
 
 const Router=router;
-const props = defineProps(['playing']);
+const props = defineProps(['playing', 'isStop', 'resetInterval', 'words']);
 const emits = defineEmits(['countdown', 'reCountdown']);
 let interval;
 let elapsedTime = 0; 
@@ -27,6 +27,11 @@ function startStopWatch() {
         }, 1000); 
     }
 }
+function stopStopWatch() {
+  if ( props.isStop ) {
+    clearInterval(interval);
+  }
+}
 function countdown() {
     emits('countdown',3);
 }
@@ -37,7 +42,15 @@ function navigateHome() {
       Router.push('/');
     }
 
-watch(() =>props.playing, startStopWatch, {deep: true});
+watch(() =>props.playing, () => {
+  if ( props.playing ){
+    startStopWatch();
+  } else {
+    clearInterval(interval);
+    interval = null;
+    elapsedTime = 0;
+  }}, {deep: true});
+watch(()=> props.isStop,stopStopWatch, {deep:true});
 </script>
 
 <template>
@@ -47,7 +60,7 @@ watch(() =>props.playing, startStopWatch, {deep: true});
     <li>▽ Settings</li>
       <ul class="ul-2"><li @click="navigateHome">TOP</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
-    <ul class="ul-2"><li class="text-danger">Time<span>{{ formatElapsedTime }}</span></li><li class="text-warning">Words 7</li></ul>
+    <ul class="ul-2"><li class="text-danger">Time<span>{{ formatElapsedTime }}</span></li><li class="text-warning">Words <span>{{ props.words }}</span></li></ul>
     <li>▷ Dummy Folder</li>
 
 </ul>
