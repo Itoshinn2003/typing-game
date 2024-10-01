@@ -8,6 +8,7 @@ let intervalId: number | null | NodeJS.Timeout;
 let Seconds = ref(4);
 let playing = ref<boolean>(false);
 function countdown(seconds: number) {
+  if (!playing.value) {
    if (intervalId) {
     clearInterval(intervalId); 
     intervalId = null;
@@ -26,11 +27,35 @@ function countdown(seconds: number) {
     }
   }, 1000); 
 }
+}
+function reCountdown(seconds: number) {
+  if (playing.value) {
+      playing.value = false;
+  }
+   if (intervalId) {
+    clearInterval(intervalId); 
+    intervalId = null;
+   }
+   intervalId = setInterval(() => {
+    if (seconds == 0) {
+      Seconds.value = seconds;
+      seconds--;
+      playing.value = true;
+    } else if (seconds < 0) {
+      Seconds.value = -1;
+      clearInterval(intervalId);
+    } else {
+      Seconds.value = seconds;
+      seconds--;
+    }
+  }, 1000); 
+
+}
 </script>
 <template>
     <div class="row bg-grey" >
         <div class="col-2 sidebar">
-          <PlaySideBar v-on:countdown="countdown" :playing="playing"></PlaySideBar>
+          <PlaySideBar v-on:countdown="countdown" v-on:reCountdown="reCountdown" :playing="playing"></PlaySideBar>
         </div>
         <div class="col-10 rightside">
           <PlayFakeTabs></PlayFakeTabs>
@@ -38,7 +63,7 @@ function countdown(seconds: number) {
             <p v-if="Seconds > 0 && Seconds < 4" class="text-white">{{  Seconds }}</p>
             <p v-else-if="Seconds == 0" class="text-white">START</p>
           </div>
-          <PlayTypingArea></PlayTypingArea>
+          <PlayTypingArea :playing="playing"></PlayTypingArea>
         </div>
     </div>
     

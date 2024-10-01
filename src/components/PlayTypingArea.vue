@@ -4,8 +4,10 @@ import Prism from 'prismjs';
 import 'prismjs/prism';
 import 'prismjs/components/prism-markup.js';
 import 'prismjs/themes/prism-tomorrow.css'; 
+
+const props = defineProps(['playing']);
 let words: String[] = ['ringo','budou','nashi','itigo'];
-let wordCount = ref< number >(0);
+let wordCount = ref< number >(-1);
 let letterCount: number = 0;
 const firstCode: String = 
    `<!doctype html>
@@ -31,7 +33,6 @@ onMounted(() => {
 });
 onUpdated(() => {
     Prism.highlightAll();
-    console.log('a');
 })
 
 // もっと簡潔なコードにしたい
@@ -51,6 +52,14 @@ document.addEventListener('keydown', (event) => {
         }
     }
 });
+
+watch(() =>props.playing,() => {
+    if (!props.playing) {
+        wordCount.value = -1
+    } else {
+        wordCount.value = 0
+    }
+},{deep:true})
 </script>
 <template>
     <div class="text-white typing-word">

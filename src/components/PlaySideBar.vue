@@ -4,7 +4,7 @@ import  router  from "../router"
 
 const Router=router;
 const props = defineProps(['playing']);
-const emits = defineEmits(['countdown']);
+const emits = defineEmits(['countdown', 'reCountdown']);
 let interval;
 let elapsedTime = 0; 
 let formatElapsedTime = ref<String>('0:00');
@@ -30,6 +30,9 @@ function startStopWatch() {
 function countdown() {
     emits('countdown',3);
 }
+function reCountdown() {
+  emits('reCountdown', 3);
+}
 function navigateHome() {
       Router.push('/');
     }
@@ -40,7 +43,7 @@ watch(() =>props.playing, startStopWatch, {deep: true});
 <template>
 <ul class="ul-1">
     <li>▽ Game-folder</li>
-      <ul class="ul-2"><li @click="countdown">START</li><li>RESTART</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
+      <ul class="ul-2"><li @click="countdown">START</li><li @click="reCountdown">RESTART</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Settings</li>
       <ul class="ul-2"><li @click="navigateHome">TOP</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
