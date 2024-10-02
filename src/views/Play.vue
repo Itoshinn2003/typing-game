@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PlayFakeTabs from '../components/PlayFakeTabs.vue'
 import PlaySideBar from '../components/PlaySideBar.vue'
 import PlayTypingArea from '../components/PlayTypingArea.vue'
 import { ref } from "vue"
@@ -70,7 +69,6 @@ function stopStopWatch() {
           <PlaySideBar v-on:countdown="countdown" v-on:reCountdown="reCountdown" :playing="playing" :isStop="isStop" :resetInterval="resetInterval" :words="wordsNumber"></PlaySideBar>
         </div>
         <div class="col-10 rightside">
-          <PlayFakeTabs></PlayFakeTabs>
           <div class="countdown">
             <p v-if="Seconds > 0 && Seconds < 4" class="text-white">{{  Seconds }}</p>
             <p v-else-if="Seconds == 0" class="text-white">START</p>
