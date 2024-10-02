@@ -8,8 +8,8 @@ import 'prismjs/themes/prism-tomorrow.css';
 const props = defineProps(['playing']);
 const emits = defineEmits(['stopStopWatch', 'wordsCount']);
 
-let words: String[] = ['ringo','budou','nashi','itigo'];
-let wordCount = ref< number >(-1);
+let words: { [key: string]: string } = {'ringo':'りんご','budou':'ぶどう','nashi':'なし','itigo':'いちご'};
+let wordCount = ref<number>(-1);
 let letterCount: number = 0;
 const firstCode: String = 
    `<!doctype html>
@@ -40,12 +40,12 @@ onUpdated(() => {
 // もっと簡潔なコードにしたい
 // @keydownだとそのタグの要素の中でクリックしないとイベント発火しなかったのでaddEventListnerで記述
 document.addEventListener('keydown', (event) => {
-    for (let i = 0; i < words.length; i++) {
+    for (let i = 0; i < Object.keys(words).length; i++) {
         if (wordCount.value == i) {
-            for (let j = 0; j < words[i].length; j++) {
-                if ( letterCount == j && event.key == words[i][j]) {
+            for (let j = 0; j < Object.keys(words)[i].length; j++) {
+                if ( letterCount == j && event.key == Object.keys(words)[i][j]) {
                     letterCount++;
-                      if (words[i].length === letterCount) { 
+                      if (Object.keys(words)[i].length === letterCount) { 
                         wordCount.value++;
                         letterCount = 0;
                     }
@@ -53,6 +53,23 @@ document.addEventListener('keydown', (event) => {
             }
         }
     }
+
+
+    // let i = 0;
+    // for (let key in words) { 
+    //   if (wordCount.value == i) {
+    //     for (let j = 0; j < words[key].length; j++) {
+    //         if (letterCount == j && event.key == words[key][j]) {
+    //             letterCount++;
+    //             if (words[key].length === letterCount) {
+    //                 wordCount.value++;
+    //                 letterCount = 0;
+    //             }
+    //         }
+    //     }
+    //   }
+    //   i++;
+    // }
 });
 function stopStopWatch() {
   emits('stopStopWatch');
@@ -62,7 +79,7 @@ function wordsCount() {
 }
 
 watch(wordCount,() => {
-    if (wordCount.value == words.length) {
+    if (wordCount.value == Object.keys(words).length) {
         stopStopWatch();
     }
     wordsCount();
@@ -70,7 +87,7 @@ watch(wordCount,() => {
 
 watch(() =>props.playing,() => {
     if (!props.playing) {
-        wordCount.value = -1
+        wordCount.value = -1;
     } else {
         wordCount.value = 0
     }
@@ -81,8 +98,8 @@ watch(() =>props.playing,() => {
     <div class="text-white typing-word">
         <pre><code class="language-html">{{ firstCode }}</code></pre>
         <ul>
-            <li v-for="(word, index) in words" :key="index">
-                <li class="d-inline" v-if=" index <= wordCount "><pre class="d-inline"><code class="language-html">        {{ middleFirstCode }}</code></pre>{{ word }}<pre class="d-inline"><code class="language-html">{{ middleEndCode }}</code></pre></li>
+            <li v-for="(word, index) in Object.keys(words)" :key="index">
+                <li class="d-inline" v-if=" index <= wordCount"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode }}</code></pre>{{ word }}: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode }}</code></pre></li>
             </li>
         </ul>
         <pre><code class="language-html">{{ endCode }}</code></pre>

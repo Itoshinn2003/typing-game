@@ -60,7 +60,7 @@ watch(()=> props.isStop,stopStopWatch, {deep:true});
     <li>▽ Settings</li>
       <ul class="ul-2"><li @click="navigateHome">TOP</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
-    <ul class="ul-2"><li class="text-danger">Time<span>{{ formatElapsedTime }}</span></li><li class="text-warning">Words <span>{{ props.words }}</span></li></ul>
+    <ul class="ul-2"><li class="text-danger">Time<span>{{ formatElapsedTime }}</span></li><li class="text-warning">Words <span v-if="props.words >=0">{{ props.words }}</span></li></ul>
     <li>▷ Dummy Folder</li>
 
 </ul>
