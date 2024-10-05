@@ -6,34 +6,12 @@ import 'prismjs/components/prism-markup.js';
 import 'prismjs/themes/prism-tomorrow.css'; 
 import PlayFakeTabs from '../components/PlayFakeTabs.vue';
 import { useStore } from '../stores/index' 
+import { firstCode, endCode, words } from '../constants.ts'
 
 const store = useStore();
 const props = defineProps(['playing']);
-let words: { [key: string]: string } = {'ringo':'りんご','budou':'ぶどう','nashi':'なし','itigo':'いちご','fruits':'フルーツ','september':'9月','life':'人生','animal':'動物'};
 let wordCount = ref<number>(-1);
 let letterCount: number = 0;
-const firstCode: String = 
-   `<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>TYPING-CODE</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    </head>
-    <body>
-        <header>
-        <div class="logo">
-            <h1>タイピングゲーム</h1>
-        </div>
-        </header>`;
-
-const endCode: String = 
-    `    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
-    </body>
-    </head>
-</html>`;
 
 
 const middleFirstCode: String[] =['<h1>','<ul>','    <p>','    <textarea>','<ul>','    <li>','    <li>','<ul>'];
