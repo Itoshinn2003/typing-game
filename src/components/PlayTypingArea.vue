@@ -5,9 +5,10 @@ import 'prismjs/prism';
 import 'prismjs/components/prism-markup.js';
 import 'prismjs/themes/prism-tomorrow.css'; 
 import PlayFakeTabs from '../components/PlayFakeTabs.vue';
+import { useStore } from '../stores/index' 
 
+const store = useStore();
 const props = defineProps(['playing']);
-const emits = defineEmits(['stopStopWatch', 'wordsCount']);
 let words: { [key: string]: string } = {'ringo':'りんご','budou':'ぶどう','nashi':'なし','itigo':'いちご','fruits':'フルーツ','september':'9月','life':'人生','animal':'動物'};
 let wordCount = ref<number>(-1);
 let letterCount: number = 0;
@@ -78,19 +79,6 @@ document.addEventListener('keydown', (event) => {
     //   i++;
     // }
 });
-function stopStopWatch() {
-  emits('stopStopWatch');
-}
-function wordsCount() {
-    emits('wordsCount',wordCount)
-}
-
-watch(wordCount,() => {
-    if (wordCount.value == Object.keys(words).length) {
-        stopStopWatch();
-    }
-    wordsCount();
-}, {deep:true})
 
 watch(() =>props.playing,() => {
     if (!props.playing) {
@@ -99,6 +87,14 @@ watch(() =>props.playing,() => {
         wordCount.value = 0
     }
 },{deep:true})
+watch(wordCount,() => {
+    if (wordCount.value != -1 && wordCount.value != 0) {
+        store.countWordsNumber();
+    }
+    if (wordCount.value == Object.keys(words).length) {
+        store.stopStopWacth();
+    }
+}, {deep:true})
 
 </script>
 <template>

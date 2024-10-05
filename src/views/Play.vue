@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import PlaySideBar from '../components/PlaySideBar.vue'
 import PlayTypingArea from '../components/PlayTypingArea.vue'
+import { useStore } from '../stores/index' 
 import { ref } from "vue"
-
-let wordsNumber =ref<number>(0);
+ 
+const store = useStore();
 let intervalId: number | null | NodeJS.Timeout;
 let resetInterval= ref<boolean>(false);
 let Seconds = ref(4);
 let playing = ref<boolean>(false);
-let isStop = ref<boolean>(false);
 function countdown(seconds: number) {
   if (!playing.value) {
    if (intervalId) {
@@ -34,7 +34,8 @@ function reCountdown(seconds: number) {
   if (playing.value) {
       playing.value = false;
   }
-  isStop.value = false;
+  store.wordsNumber = 0;
+  store.isStop = false;
   resetInterval.value = true;
    if (intervalId) {
     clearInterval(intervalId); 
@@ -56,24 +57,18 @@ function reCountdown(seconds: number) {
 
 }
 
-function wordsCount(words: number) {
-    wordsNumber.value = words;
-}
-function stopStopWatch() {
-  isStop.value = true;
-}
 </script>
 <template>
     <div class="row bg-grey" >
         <div class="col-2 sidebar">
-          <PlaySideBar v-on:countdown="countdown" v-on:reCountdown="reCountdown" :playing="playing" :isStop="isStop" :resetInterval="resetInterval" :words="wordsNumber"></PlaySideBar>
+          <PlaySideBar v-on:countdown="countdown" v-on:reCountdown="reCountdown" :playing="playing" :resetInterval="resetInterval"></PlaySideBar>
         </div>
         <div class="col-10 rightside">
           <div class="countdown">
             <p v-if="Seconds > 0 && Seconds < 4" class="text-white">{{  Seconds }}</p>
             <p v-else-if="Seconds == 0" class="text-white">START</p>
           </div>
-          <PlayTypingArea :playing="playing" v-on:stopStopWatch="stopStopWatch" v-on:wordsCount="wordsCount"></PlayTypingArea>
+          <PlayTypingArea :playing="playing"></PlayTypingArea>
         </div>
     </div>
     
