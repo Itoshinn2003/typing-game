@@ -3,7 +3,9 @@ import HomePlayButton from '../components/HomePlayButton.vue'
 import HomeSelectButton from '../components/HomeSelectButton.vue'
 import TheHeader from '../components/TheHeader.vue'
 import { ref, Ref } from "vue"
+import { useStore } from '../stores/index' 
 
+const store = useStore();
 const isPlayStyle = ref<boolean>(true);
 
 function ifChange() {
@@ -27,8 +29,7 @@ function ifChange() {
   <div v-else>
     <div class="d-flex justify-content-evenly mt-5">
       <HomeSelectButton gameStyle="thirtyWords"></HomeSelectButton>
-      <HomeSelectButton gameStyle="tenSentences"></HomeSelectButton>
-      <HomeSelectButton gameStyle="tenFunctions"></HomeSelectButton>
+      <HomeSelectButton gameStyle="Sentence"></HomeSelectButton>
     </div>
     <button class="back-button" @click="ifChange">BACK</button>
   </div>

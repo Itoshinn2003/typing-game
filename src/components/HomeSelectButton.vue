@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, } from 'vue'
+import { defineProps, defineEmits, watch } from 'vue'
+import { useStore } from '../stores/index' 
+
+const store = useStore();
 
 const props = defineProps({
     gameStyle: String,
@@ -7,15 +10,17 @@ const props = defineProps({
 
 function NamedButton(): String {
     if (props.gameStyle == 'thirtyWords') {
-        return '30単語'
-    } else if ( props.gameStyle == 'tenSentences') {
-        return '10文章'
+        return '30 Words'
     } else {
-        return '10関数'
+        return '1 Sentence'
     }
+}
+function checkGameStyle() {
+    store.gameStyle = props.gameStyle;
+    console.log(store.gameStyle)
 }
 </script>
 
 <template>
-    <router-link v-bind:to="'/play'"><button class="home-button">{{ NamedButton() }}</button></router-link>
+    <router-link v-bind:to="'/play'"><button class="home-button" @click="checkGameStyle">{{ NamedButton() }}</button></router-link>
 </template>

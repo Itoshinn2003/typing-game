@@ -6,6 +6,8 @@ export const useStore = defineStore({
     state: () => ({
         isStop: ref(false),
         wordsNumber: ref(0),
+        gameStyle: ref<string | null | undefined>(null),
+
     }),
     actions: {
         stopStopWacth() {
