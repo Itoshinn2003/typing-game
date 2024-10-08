@@ -6,6 +6,7 @@ export const useStore = defineStore({
     state: () => ({
         isStop: ref(false),
         wordsNumber: ref(0),
+        sentencesNumber: ref(0),
         gameStyle: ref<string | null | undefined>(null),
 
     }),
@@ -15,6 +16,9 @@ export const useStore = defineStore({
         },
         countWordsNumber() {
             this.wordsNumber ++;
+        },
+        countSentencesNumber() {
+            this.sentencesNumber ++;
         }
     }
 })
