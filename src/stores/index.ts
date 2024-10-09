@@ -4,10 +4,10 @@ import { ref } from 'vue';
 export const useStore = defineStore({
     id: 'Store',
     state: () => ({
-        isStop: ref(false),
-        wordsNumber: ref(0),
-        sentencesNumber: ref(0),
-        gameStyle: ref<string | null | undefined>(null),
+        isStop: false,
+        wordsNumber: 0,
+        sentencesNumber: 0,
+        gameStyle: null as string | null | undefined,
 
     }),
     actions: {
@@ -20,5 +20,6 @@ export const useStore = defineStore({
         countSentencesNumber() {
             this.sentencesNumber ++;
         }
-    }
+    },
+    persist: true,
 })
