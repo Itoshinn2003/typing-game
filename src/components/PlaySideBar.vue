@@ -62,7 +62,7 @@ watch(() =>store.isStop, ()=> {
     <li>▽ Settings</li>
       <ul class="ul-2"><li @click="navigateHome">TOP</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
-    <ul class="ul-2"><li class="text-danger">Time<span>{{ formatElapsedTime }}</span></li><li class="text-warning">Words <span v-if="store.wordsNumber >=0">{{ store.wordsNumber }}</span></li></ul>
+    <ul class="ul-2"><li class="text-danger">Time<span>{{ formatElapsedTime }}</span></li><li class="text-warning" v-if="store.gameStyle == 'thirtyWords'">Words <span v-if="store.wordsNumber >=0">{{ store.wordsNumber }}</span></li><li class="text-warning" v-else>Sentences <span v-if="store.sentencesNumber >=0">{{ store.sentencesNumber }}</span></li></ul>
     <li>▷ Dummy Folder</li>
 
 </ul>

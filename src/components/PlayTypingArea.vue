@@ -14,12 +14,12 @@ let wordCount = ref<number>(-1);
 let letterCount: number = 0;
 let sentence = ref< null | Response>(null);
 let sentenceCount = ref<number>(-1);
-let sentenceLetterCount: number = 0;
+let sentenceLetterCount = ref<number>(0);
 let sentencesArray = ref<string[] | null>(null)
 
 
-const middleFirstCode: String[] =['<h1>','<ul>','    <p>','    <textarea>','<ul>','    <li>','    <li>','<ul>'];
-const middleEndCode: String[] =['</h1>','<ul>','</p>','</textarea>','</ul>','</li>','</li>','</ul>'];
+const middleFirstCode: String[] =['<h1>','<p>','<ul>','    <textarea>','<ul>','    <li>','    <li>','<ul>'];
+const middleEndCode: String[] =['</h1>','</p>','<ul>','</textarea>','</ul>','</li>','</li>','</ul>'];
 onMounted(() => {
     Prism.highlightAll();
 });
@@ -47,11 +47,11 @@ document.addEventListener('keydown', (event) =>{
        for (let i = 0; i < sentencesArray.value.length; i++) {
            if (sentenceCount.value == i) {
             for (let j = 0; j < sentencesArray.value[i].length; j++) {
-                if ( sentenceLetterCount == j && event.key == sentencesArray.value[i][j]) {
-                    sentenceLetterCount++;
-                    if (sentencesArray.value[i].length === sentenceLetterCount) {
+                if ( sentenceLetterCount.value == j && event.key == sentencesArray.value[i][j]) {
+                    sentenceLetterCount.value++;
+                    if (sentencesArray.value[i].length === sentenceLetterCount.value) {
                         sentenceCount.value++;
-                        sentenceLetterCount = 0;
+                        sentenceLetterCount.value = 0;
                     }
                 }
             }
@@ -62,7 +62,7 @@ document.addEventListener('keydown', (event) =>{
 
 
 async function fetchRandomText() {
-  const url = 'https://lorem-ipsum-api.p.rapidapi.com/sentence?amount=5';
+  const url = 'https://lorem-ipsum-api.p.rapidapi.com/sentence?amount=3';
   const options = {
     method: 'GET',
     headers: {
@@ -134,7 +134,7 @@ watch(sentenceCount, () => {
         </ul>
         <ul v-else>
             <li v-for="(word, index) in sentencesArray" :key="index">
-                <li class="d-inline fw-bolder" v-if=" index <= sentenceCount"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre>{{ word }}: 「{{ sentencesArray[index] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+                <li class="d-inline fw-bolder text-gray" v-if=" index <= sentenceCount"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word, index2) in sentencesArray[index]" ><span :class="{ textWhite: sentenceLetterCount > index2 || index < sentenceCount  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <pre><code class="language-html">{{ endCode }}</code></pre>

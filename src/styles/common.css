@@ -97,3 +97,6 @@ p {
 .bg-black{
     background-color:#242424;
 }
+.textWhite{
+    color:white !important;
+}
