@@ -22,4 +22,4 @@ export const endCode: String =
      </head>
  </html>`;
 
-export let words: { [key: string]: string } = {'rin go':'りんご','budou':'ぶどう','nashi':'なし','itigo':'いちご','fruits':'フルーツ','september':'9月','life':'人生','animal':'動物'};
+export let words: { [key: string]: string } = {'ringo':'りんご','budou':'ぶどう','nashi':'なし','itigo':'いちご','fruits':'フルーツ','september':'9月','life':'人生','animal':'動物'};

@@ -5,8 +5,8 @@ export const useStore = defineStore({
     id: 'Store',
     state: () => ({
         isStop: false,
-        wordsNumber: 0,
-        sentencesNumber: 0,
+        wordsNumber: -1,
+        sentencesNumber: -1,
         formatElapsedTime: ref<string>('0:00'),
         gameStyle: null as string | null | undefined,
         sentenceLetterNumber: 0,
@@ -15,6 +15,7 @@ export const useStore = defineStore({
     actions: {
         stopStopWacth() {
             this.isStop = true;
+            console.log(this.isStop);
         },
         countWordsNumber() {
             this.wordsNumber ++;

@@ -11,11 +11,7 @@ import Cookies from 'js-cookie';
 
 const store = useStore();
 const props = defineProps(['playing']);
-let wordCount = ref<number>(-1);
-let letterCount: number = 0;
 let sentence = ref< null | Response>(null);
-let sentenceCount = ref<number>(-1);
-let sentenceLetterCount = ref<number>(0);
 let sentencesArray = ref<string[] | null>(null)
 
 
@@ -32,15 +28,17 @@ onUpdated(() => {
 document.addEventListener('keydown', (event) =>{
     if (store.gameStyle == 'thirtyWords') {
         for (let i = 0; i < Object.keys(words).length; i++) {
-        if (wordCount.value == i) {
+        if (store.wordsNumber == i) {
             for (let j = 0; j < Object.keys(words)[i].length; j++) {
-                if ( letterCount == j && event.key == Object.keys(words)[i][j]) {
-                    letterCount++;
-                      if (Object.keys(words)[i].length === letterCount) { 
-                        wordCount.value++;
-                        letterCount = 0;
+                if ( store.wordletterNumber == j && event.key == Object.keys(words)[i][j]) {
+                    store.wordletterNumber++;
+                      if (Object.keys(words)[i].length === store.wordletterNumber) { 
+                        store.wordsNumber++;
+                        store.wordletterNumber = 0;
                     }
+                    return;
                 }
+
             }
         }
     }
@@ -98,17 +96,14 @@ watch(() =>props.playing,() => {
         }
     } else {
         if (!props.playing) {
-        wordCount.value = -1;
+        store.wordsNumber = -1;
     } else {
-        wordCount.value = 0
+        store.wordsNumber = 0
     }
     }
 },{deep:true})
-watch(wordCount,() => {
-    if (wordCount.value != -1 && wordCount.value != 0) {
-        store.countWordsNumber();
-    }
-    if (wordCount.value == Object.keys(words).length) {
+watch(() => store.wordsNumber,() => {
+    if (store.wordsNumber == Object.keys(words).length) {
         store.stopStopWacth();
         if ( Cookies.get('wordTime') == undefined || Cookies.get('wordTime') >= store.formatElapsedTime) {
         Cookies.set('wordTime', store.formatElapsedTime);
@@ -119,15 +114,14 @@ watch(wordCount,() => {
 
 watch(() =>store.sentencesNumber, () => {
     if (store.sentencesNumber == sentencesArray.value?.length) {
-        console.log('終わり')
         store.stopStopWacth();
         if ( Cookies.get('sentenceTime') == undefined || Cookies.get('sentenceTime') >= store.formatElapsedTime) {
         Cookies.set('sentenceTime', store.formatElapsedTime);
         console.log(Cookies.get('sentenceTime'));
         }
     }
-    console.log(store.sentencesNumber);
 })
+console.log(store.wordsNumber);
 </script>
 <template>
     <PlayFakeTabs></PlayFakeTabs>
@@ -135,7 +129,7 @@ watch(() =>store.sentencesNumber, () => {
         <pre><code class="language-html">{{ firstCode }}</code></pre>
         <ul v-if="store.gameStyle == 'thirtyWords'">
             <li v-for="(word, index) in Object.keys(words)" :key="index">
-                <li class="d-inline fw-bolder" v-if=" index <= wordCount"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre>{{ word }}: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+                <li class="d-inline fw-bolder" v-if=" index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word2, index2) in word" class="text-gray" ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ word[index2] }}</span></span>: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <ul v-else>
