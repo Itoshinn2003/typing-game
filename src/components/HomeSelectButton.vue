@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, watch } from 'vue'
-import { useStore } from '../stores/index' 
+import { useStore, gameStyle } from '../stores/index' 
 import Cookies from 'js-cookie';
 
 const store = useStore();
+const gameStyleStore = gameStyle();
 
 const props = defineProps({
     gameStyle: String,
@@ -17,7 +18,7 @@ function NamedButton(): String {
     }
 }
 function checkGameStyle() {
-    store.gameStyle = props.gameStyle;
+    gameStyleStore.gameStyle = props.gameStyle;
 }
 </script>
 

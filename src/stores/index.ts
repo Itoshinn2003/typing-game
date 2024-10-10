@@ -25,5 +25,12 @@ export const useStore = defineStore({
             this.sentencesNumber ++;
         }
     },
-    persist: true,
+})
+export const gameStyle = defineStore({
+    id: 'gameStyleStore',
+    state: () => ({
+        gameStyle: null as string | null | undefined,
+    }),
+    persist: true
+
 })
