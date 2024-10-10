@@ -11,6 +11,7 @@ export const useStore = defineStore({
         gameStyle: null as string | null | undefined,
         sentenceLetterNumber: 0,
         wordletterNumber: 0,
+        sentencesArray: null as null | String[],
     }),
     actions: {
         stopStopWacth() {

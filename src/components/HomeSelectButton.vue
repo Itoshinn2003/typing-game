@@ -13,7 +13,7 @@ function NamedButton(): String {
     if (props.gameStyle == 'thirtyWords') {
         return '30 Words'
     } else {
-        return '1 Sentence'
+        return '3 Sentences'
     }
 }
 function checkGameStyle() {
@@ -25,6 +25,6 @@ function checkGameStyle() {
     <div>
     <router-link v-bind:to="'/play'" class="d-block"><button class="home-button " @click="checkGameStyle">{{ NamedButton() }}</button></router-link>
     <p v-if="props.gameStyle == 'thirtyWords'">New Record:{{ Cookies.get('wordTime') }}</p>
-    <p v-if="props.gameStyle == 'Sentence'">New Record:{{ Cookies.get('sentenceTime') }}</p>
+    <p v-if="props.gameStyle == 'threeSentences'">New Record:{{ Cookies.get('sentenceTime') }}</p>
     </div>
 </template>

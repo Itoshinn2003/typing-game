@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, onUpdated } from 'vue';
+import { onMounted, ref, watch, onUpdated, onBeforeUnmount } from 'vue';
 import Prism from 'prismjs';
 import 'prismjs/prism';
 import 'prismjs/components/prism-markup.js';
@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 const store = useStore();
 const props = defineProps(['playing']);
 let sentence = ref< null | Response>(null);
-let sentencesArray = ref<string[] | null>(null)
+
 
 
 const middleFirstCode: String[] =['<h1>','<p>','<ul>','    <textarea>','<ul>','    <li>','    <li>','<ul>'];
@@ -25,30 +25,38 @@ onUpdated(() => {
 })
 
 // もっと簡潔なコードにしたい
-document.addEventListener('keydown', (event) =>{
+document.addEventListener('keyup', handlekeyup);
+onBeforeUnmount(()=>{
+   document.removeEventListener('keyup', handlekeyup);
+})
+
+
+function handlekeyup(event: any) {
+    let count =0;
+    console.log(event)
     if (store.gameStyle == 'thirtyWords') {
         for (let i = 0; i < Object.keys(words).length; i++) {
         if (store.wordsNumber == i) {
             for (let j = 0; j < Object.keys(words)[i].length; j++) {
-                if ( store.wordletterNumber == j && event.key == Object.keys(words)[i][j]) {
+                if ( store.wordletterNumber == j && event.key == Object.keys(words)[i][j] && count == 0) {
                     store.wordletterNumber++;
+                    count++
                       if (Object.keys(words)[i].length === store.wordletterNumber) { 
                         store.wordsNumber++;
                         store.wordletterNumber = 0;
                     }
-                    return;
                 }
 
             }
         }
     }
     } else {
-       for (let i = 0; i < sentencesArray.value.length; i++) {
+       for (let i = 0; i < store.sentencesArray.length; i++) {
            if (store.sentencesNumber == i) {
-            for (let j = 0; j < sentencesArray.value[i].length; j++) {
-                if ( store.sentenceLetterNumber == j && event.key == sentencesArray.value[i][j]) {
+            for (let j = 0; j < store.sentencesArray[i].length; j++) {
+                if ( store.sentenceLetterNumber == j && event.key == store.sentencesArray[i][j]) {
                     store.sentenceLetterNumber++;
-                    if (sentencesArray.value[i].length === store.sentenceLetterNumber) {
+                    if (store.sentencesArray[i].length === store.sentenceLetterNumber) {
                         store.sentencesNumber++;
                         store.sentenceLetterNumber = 0;
                     }
@@ -57,7 +65,7 @@ document.addEventListener('keydown', (event) =>{
            }
        }
     }
-});
+}
 
 
 async function fetchRandomText() {
@@ -69,13 +77,12 @@ async function fetchRandomText() {
       'x-rapidapi-host': 'lorem-ipsum-api.p.rapidapi.com'
     }
   };
-  
+  console.log('aaaaaaa')
   try {
     const response = await fetch(url, options);
     sentence.value = await response.json();
     if (typeof sentence.value?.text === 'string') {
-        sentencesArray.value = (sentence.value?.text as string).split('. ');
-        console.log(sentencesArray);
+        store.sentencesArray = (sentence.value?.text as string).split('. ');
     }
   } catch (error) {
     console.error(error);
@@ -87,10 +94,11 @@ async function fetchRandomText() {
 
 watch(() =>props.playing,() => {
     console.log(props.playing);
-    if ( store.gameStyle == 'Sentence') {
+    if ( store.gameStyle == 'threeSentences') {
         if (!props.playing) {
             store.sentencesNumber = -1;
         } else {
+            console.log('ddfj');
             fetchRandomText();
             store.sentencesNumber = 0
         }
@@ -113,7 +121,7 @@ watch(() => store.wordsNumber,() => {
 }, {deep:true})
 
 watch(() =>store.sentencesNumber, () => {
-    if (store.sentencesNumber == sentencesArray.value?.length) {
+    if (store.sentencesNumber ==  store.sentencesArray.length) {
         store.stopStopWacth();
         if ( Cookies.get('sentenceTime') == undefined || Cookies.get('sentenceTime') >= store.formatElapsedTime) {
         Cookies.set('sentenceTime', store.formatElapsedTime);
@@ -124,6 +132,7 @@ watch(() =>store.sentencesNumber, () => {
 console.log(store.wordsNumber);
 </script>
 <template>
+    <>
     <PlayFakeTabs></PlayFakeTabs>
     <div class="text-white typing-word">
         <pre><code class="language-html">{{ firstCode }}</code></pre>
@@ -133,13 +142,14 @@ console.log(store.wordsNumber);
             </li>
         </ul>
         <ul v-else>
-            <li v-for="(word, index) in sentencesArray" :key="index">
-                <li class="d-inline fw-bolder text-gray" v-if=" index <= store.sentencesNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word, index2) in sentencesArray[index]" ><span :class="{ textWhite: store.sentenceLetterNumber > index2 || index < store.sentencesNumber  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+            <li v-for="(word, index) in store.sentencesArray" :key="index">
+                <li class="d-inline fw-bolder text-gray" v-if=" index <= store.sentencesNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word, index2) in store.sentencesArray[index]" ><span :class="{ textWhite: store.sentenceLetterNumber > index2 || index < store.sentencesNumber  }">{{ store.sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <pre><code class="language-html">{{ endCode }}</code></pre>
 
     </div>
+    < />
 </template>
 
 <style>
