@@ -115,7 +115,7 @@ watch(() => store.wordsNumber,() => {
     if (store.wordsNumber == Object.keys(words).length) {
         store.stopStopWacth();
         if ( Cookies.get('wordTime') == undefined || Cookies.get('wordTime') >= store.formatElapsedTime) {
-        Cookies.set('wordTime', store.formatElapsedTime);
+        Cookies.set('wordTime', store.formatElapsedTime, { expires: 1000 });
         console.log(Cookies.get('wordTime'));
         }
     }
@@ -125,7 +125,7 @@ watch(() =>store.sentencesNumber, () => {
     if (store.sentencesNumber ==  store.sentencesArray.length) {
         store.stopStopWacth();
         if ( Cookies.get('sentenceTime') == undefined || Cookies.get('sentenceTime') >= store.formatElapsedTime) {
-        Cookies.set('sentenceTime', store.formatElapsedTime);
+        Cookies.set('sentenceTime', store.formatElapsedTime, { expires: 1000 });
         console.log(Cookies.get('sentenceTime'));
         }
     }
