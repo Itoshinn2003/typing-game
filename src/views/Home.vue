@@ -14,7 +14,6 @@ function ifChange() {
   } else {
     isPlayStyle.value = true;
   }
-  console.log('aaaa');
 }
 
 </script>

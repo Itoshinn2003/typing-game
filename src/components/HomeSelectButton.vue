@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, watch } from 'vue'
 import { useStore } from '../stores/index' 
+import Cookies from 'js-cookie';
 
 const store = useStore();
 
@@ -17,10 +18,13 @@ function NamedButton(): String {
 }
 function checkGameStyle() {
     store.gameStyle = props.gameStyle;
-    console.log(store.gameStyle)
 }
 </script>
 
 <template>
-    <router-link v-bind:to="'/play'"><button class="home-button" @click="checkGameStyle">{{ NamedButton() }}</button></router-link>
+    <div>
+    <router-link v-bind:to="'/play'" class="d-block"><button class="home-button " @click="checkGameStyle">{{ NamedButton() }}</button></router-link>
+    <p v-if="props.gameStyle == 'thirtyWords'">New Record:{{ Cookies.get('wordTime') }}</p>
+    <p v-if="props.gameStyle == 'Sentence'">New Record:{{ Cookies.get('sentenceTime') }}</p>
+    </div>
 </template>

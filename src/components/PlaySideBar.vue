@@ -9,7 +9,7 @@ const props = defineProps(['playing', 'isStop', 'resetInterval', 'words']);
 const emits = defineEmits(['countdown', 'reCountdown']);
 let interval;
 let elapsedTime = 0; 
-let formatElapsedTime = ref<String>('0:00');
+store.formatElapsedTime = '0:00';
 function formatTime(seconds: number) {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -17,7 +17,7 @@ function formatTime(seconds: number) {
 }
 
 function updateDisplay() {
-    formatElapsedTime.value = formatTime(elapsedTime);
+    store.formatElapsedTime = formatTime(elapsedTime);
 }
 
 function startStopWatch() {
@@ -36,6 +36,12 @@ function reCountdown() {
   emits('reCountdown', 3);
 }
 function navigateHome() {
+      clearInterval(interval);
+      interval = null;
+      elapsedTime = 0;
+      store.wordsNumber = 0;
+      store.sentencesNumber = 0;
+      store.sentenceLetterNumber = 0;
       Router.push('/');
     }
 
@@ -49,6 +55,7 @@ watch(() =>props.playing, () => {
   }}, {deep: true});
 
 watch(() =>store.isStop, ()=> {
+  console.log(store.isStop);
   if ( store.isStop ) {
     clearInterval(interval);
   }
@@ -62,7 +69,7 @@ watch(() =>store.isStop, ()=> {
     <li>▽ Settings</li>
       <ul class="ul-2"><li @click="navigateHome">TOP</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
-    <ul class="ul-2"><li class="text-danger">Time<span>{{ formatElapsedTime }}</span></li><li class="text-warning" v-if="store.gameStyle == 'thirtyWords'">Words <span v-if="store.wordsNumber >=0">{{ store.wordsNumber }}</span></li><li class="text-warning" v-else>Sentences <span v-if="store.sentencesNumber >=0">{{ store.sentencesNumber }}</span></li></ul>
+    <ul class="ul-2"><li class="text-danger">Time<span>{{ store.formatElapsedTime }}</span></li><li class="text-warning" v-if="store.gameStyle == 'thirtyWords'">Words <span v-if="store.wordsNumber >=0">{{ store.wordsNumber }}</span></li><li class="text-warning" v-else>Sentences <span v-if="store.sentencesNumber >=0">{{ store.sentencesNumber }}</span></li></ul>
     <li>▷ Dummy Folder</li>
 
 </ul>

@@ -12,7 +12,6 @@ const emits = defineEmits([
 )
 
 function onClick(): void{
-    console.log('bbjkjdg');
     emits('changeHomeState')
 }
 function NamedButton(): String {

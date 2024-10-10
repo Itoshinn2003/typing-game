@@ -11,7 +11,8 @@ export const firstCode: String =
  <body>
      <header>
      <div class="logo">
-         <h1>タイピングゲーム</h1>
+         <h1>This is TypingGame!</h1>
+         <p>Let's type!</p>
      </div>
      </header>`;
 

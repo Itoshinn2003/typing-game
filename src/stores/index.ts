@@ -7,8 +7,10 @@ export const useStore = defineStore({
         isStop: false,
         wordsNumber: 0,
         sentencesNumber: 0,
+        formatElapsedTime: ref<string>('0:00'),
         gameStyle: null as string | null | undefined,
-
+        sentenceLetterNumber: 0,
+        wordletterNumber: 0,
     }),
     actions: {
         stopStopWacth() {

@@ -35,6 +35,8 @@ function reCountdown(seconds: number) {
       playing.value = false;
   }
   store.wordsNumber = 0;
+  store.sentencesNumber = 0;
+  store.sentenceLetterNumber = 0;
   store.isStop = false;
   resetInterval.value = true;
    if (intervalId) {

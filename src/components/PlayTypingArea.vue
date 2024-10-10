@@ -7,6 +7,7 @@ import 'prismjs/themes/prism-tomorrow.css';
 import PlayFakeTabs from '../components/PlayFakeTabs.vue';
 import { useStore } from '../stores/index' 
 import { firstCode, endCode, words } from '../constants.ts'
+import Cookies from 'js-cookie';
 
 const store = useStore();
 const props = defineProps(['playing']);
@@ -45,13 +46,13 @@ document.addEventListener('keydown', (event) =>{
     }
     } else {
        for (let i = 0; i < sentencesArray.value.length; i++) {
-           if (sentenceCount.value == i) {
+           if (store.sentencesNumber == i) {
             for (let j = 0; j < sentencesArray.value[i].length; j++) {
-                if ( sentenceLetterCount.value == j && event.key == sentencesArray.value[i][j]) {
-                    sentenceLetterCount.value++;
-                    if (sentencesArray.value[i].length === sentenceLetterCount.value) {
-                        sentenceCount.value++;
-                        sentenceLetterCount.value = 0;
+                if ( store.sentenceLetterNumber == j && event.key == sentencesArray.value[i][j]) {
+                    store.sentenceLetterNumber++;
+                    if (sentencesArray.value[i].length === store.sentenceLetterNumber) {
+                        store.sentencesNumber++;
+                        store.sentenceLetterNumber = 0;
                     }
                 }
             }
@@ -78,7 +79,6 @@ async function fetchRandomText() {
         sentencesArray.value = (sentence.value?.text as string).split('. ');
         console.log(sentencesArray);
     }
-    console.log(sentence.value?.text)
   } catch (error) {
     console.error(error);
     throw error;
@@ -88,13 +88,13 @@ async function fetchRandomText() {
 
 
 watch(() =>props.playing,() => {
+    console.log(props.playing);
     if ( store.gameStyle == 'Sentence') {
-        fetchRandomText();
         if (!props.playing) {
-            sentenceCount.value = -1;
+            store.sentencesNumber = -1;
         } else {
-            sentenceCount.value = 0
-            console.log(sentenceCount.value);
+            fetchRandomText();
+            store.sentencesNumber = 0
         }
     } else {
         if (!props.playing) {
@@ -110,18 +110,24 @@ watch(wordCount,() => {
     }
     if (wordCount.value == Object.keys(words).length) {
         store.stopStopWacth();
+        if ( Cookies.get('wordTime') == undefined || Cookies.get('wordTime') >= store.formatElapsedTime) {
+        Cookies.set('wordTime', store.formatElapsedTime);
+        console.log(Cookies.get('wordTime'));
+        }
     }
 }, {deep:true})
 
-watch(sentenceCount, () => {
-    if (sentenceCount.value != -1 && sentenceCount.value != 0) {
-        store.countSentencesNumber();
-    }
-    if (sentenceCount.value == sentencesArray.value?.length) {
+watch(() =>store.sentencesNumber, () => {
+    if (store.sentencesNumber == sentencesArray.value?.length) {
+        console.log('終わり')
         store.stopStopWacth();
+        if ( Cookies.get('sentenceTime') == undefined || Cookies.get('sentenceTime') >= store.formatElapsedTime) {
+        Cookies.set('sentenceTime', store.formatElapsedTime);
+        console.log(Cookies.get('sentenceTime'));
+        }
     }
+    console.log(store.sentencesNumber);
 })
-
 </script>
 <template>
     <PlayFakeTabs></PlayFakeTabs>
@@ -134,7 +140,7 @@ watch(sentenceCount, () => {
         </ul>
         <ul v-else>
             <li v-for="(word, index) in sentencesArray" :key="index">
-                <li class="d-inline fw-bolder text-gray" v-if=" index <= sentenceCount"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word, index2) in sentencesArray[index]" ><span :class="{ textWhite: sentenceLetterCount > index2 || index < sentenceCount  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+                <li class="d-inline fw-bolder text-gray" v-if=" index <= store.sentencesNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word, index2) in sentencesArray[index]" ><span :class="{ textWhite: store.sentenceLetterNumber > index2 || index < store.sentencesNumber  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <pre><code class="language-html">{{ endCode }}</code></pre>
