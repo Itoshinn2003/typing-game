@@ -16,7 +16,6 @@ export const useStore = defineStore({
     actions: {
         stopStopWacth() {
             this.isStop = true;
-            console.log(this.isStop);
         },
         countWordsNumber() {
             this.wordsNumber ++;

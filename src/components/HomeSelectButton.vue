@@ -12,8 +12,8 @@ const props = defineProps({
 })
 
 function NamedButton(): String {
-    if (props.gameStyle == 'thirtyWords') {
-        return '30 Words'
+    if (props.gameStyle == 'twentyWords') {
+        return '20 Words'
     } else {
         return '3 Sentences'
     }

@@ -22,7 +22,6 @@ function updateDisplay() {
 }
 
 function startStopWatch() {
-  console.log(props.playing);
     if (props.playing) { 
         interval = setInterval(() => {
             elapsedTime++;
@@ -56,7 +55,6 @@ watch(() =>props.playing, () => {
   }}, {deep: true});
 
 watch(() =>store.isStop, ()=> {
-  console.log(store.isStop);
   if ( store.isStop ) {
     clearInterval(interval);
   }
@@ -70,7 +68,7 @@ watch(() =>store.isStop, ()=> {
     <li>▽ Settings</li>
       <ul class="ul-2"><li @click="navigateHome"><router-link v-bind:to="'/'" >TOP</router-link></li><li @click="navigateHome"><router-link v-bind:to="'/rule'" >Rule</router-link></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
-    <ul class="ul-2"><li class="text-danger">Time<span>{{ store.formatElapsedTime }}</span></li><li class="text-warning" v-if="gameStyleStore.gameStyle == 'thirtyWords'">Words <span v-if="store.wordsNumber >=0">{{ store.wordsNumber }}</span></li><li class="text-warning" v-else>Sentences <span v-if="store.sentencesNumber >=0">{{ store.sentencesNumber }}</span></li></ul>
+    <ul class="ul-2"><li class="text-danger">Time<span>{{ store.formatElapsedTime }}</span></li><li class="text-warning" v-if="gameStyleStore.gameStyle == 'twentyWords'">Words <span v-if="store.wordsNumber >=0">{{ store.wordsNumber }}</span></li><li class="text-warning" v-else>Sentences <span v-if="store.sentencesNumber >=0">{{ store.sentencesNumber }}</span></li></ul>
     <li>▷ Dummy Folder</li>
 
 </ul>

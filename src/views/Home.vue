@@ -26,11 +26,21 @@ function ifChange() {
   </div>
   <div v-else>
     <div class="d-flex justify-content-evenly mt-5">
-      <HomeSelectButton gameStyle="thirtyWords"></HomeSelectButton>
+      <HomeSelectButton gameStyle="twentyWords"></HomeSelectButton>
       <HomeSelectButton gameStyle="threeSentences"></HomeSelectButton>
     </div>
     <button class="back-button" @click="ifChange">BACK</button>
   </div>
+  <p class="contact">&copy; 2024 TYPING-CODE   |   Contact: itoshinnContact@gmail.com</p>
   </div>
 </template>
+<style>
+.contact{
+    position: fixed;
+    bottom: 0; /* 画面の底に固定 */
+    left: 0; /* 左端に配置 */
+    right: 0; /* 右端に配置 */
+    text-align: center; /* 中央寄せ */
+}
+</style>
 

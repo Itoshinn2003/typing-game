@@ -39,8 +39,7 @@ onBeforeUnmount(()=>{
 
 function handlekeyup(event: any) {
     let count =0;
-    console.log(event)
-    if (gameStyleStore.gameStyle == 'thirtyWords') {
+    if (gameStyleStore.gameStyle == 'twentyWords') {
         for (let i = 0; i < Object.keys(words).length; i++) {
         if (store.wordsNumber == i) {
             for (let j = 0; j < Object.keys(words)[i].length; j++) {
@@ -99,12 +98,10 @@ async function fetchRandomText() {
 
 
 watch(() =>props.playing,() => {
-    console.log(props.playing);
     if ( gameStyleStore.gameStyle == 'threeSentences') {
         if (!props.playing) {
             store.sentencesNumber = -1;
         } else {
-            console.log('ddfj');
             fetchRandomText();
             store.sentencesNumber = 0
         }
@@ -117,12 +114,9 @@ watch(() =>props.playing,() => {
             let key = Object.keys(word);
             const randomIndex = Math.floor(Math.random() * key.length);
             const randomKey = key[randomIndex];
-            console.log(randomKey);
-            console.log(word[randomKey])
             const randomValue = word[randomKey];
             words[randomKey] = randomValue;
         }
-        console.log(words);
         store.wordsNumber = 0
     }
     }
@@ -132,7 +126,6 @@ watch(() => store.wordsNumber,() => {
         store.stopStopWacth();
         if ( Cookies.get('wordTime') == undefined || Cookies.get('wordTime') >= store.formatElapsedTime) {
         Cookies.set('wordTime', store.formatElapsedTime, { expires: 1000 });
-        console.log(Cookies.get('wordTime'));
         }
     }
 }, {deep:true})
@@ -142,18 +135,15 @@ watch(() =>store.sentencesNumber, () => {
         store.stopStopWacth();
         if ( Cookies.get('sentenceTime') == undefined || Cookies.get('sentenceTime') >= store.formatElapsedTime) {
         Cookies.set('sentenceTime', store.formatElapsedTime, { expires: 1000 });
-        console.log(Cookies.get('sentenceTime'));
         }
     }
 })
-console.log(store.wordsNumber);
 </script>
 <template>
-    <>
     <PlayFakeTabs></PlayFakeTabs>
     <div class="text-white typing-word">
         <pre><code class="language-html">{{ firstCode }}</code></pre>
-        <ul v-if="gameStyleStore.gameStyle == 'thirtyWords'">
+        <ul v-if="gameStyleStore.gameStyle == 'twentyWords'">
             <li v-for="(word, index) in Object.keys(words)" :key="index">
                 <li class="d-inline fw-bolder" v-if=" index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word2, index2) in word" class="text-gray" ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ word[index2] }}</span></span>: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
