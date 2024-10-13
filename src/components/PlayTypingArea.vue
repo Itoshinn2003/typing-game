@@ -6,7 +6,7 @@ import 'prismjs/components/prism-markup.js';
 import 'prismjs/themes/prism-tomorrow.css'; 
 import PlayFakeTabs from '../components/PlayFakeTabs.vue';
 import { useStore, gameStyle } from '../stores/index' 
-import { firstCode, endCode, words } from '../constants.ts'
+import { firstCode, endCode, wordsArray} from '../constants.ts'
 import Cookies from 'js-cookie';
 
 const store = useStore();
@@ -14,6 +14,11 @@ const gameStyleStore = gameStyle();
 const props = defineProps(['playing']);
 let sentence = ref< null | Response>(null);
 
+interface StringObject {
+    [key: string]: string; 
+}
+
+let words: StringObject = {};
 
 
 const middleFirstCode: String[] =['<h1>','<p>','<ul>','    <textarea>','<ul>','    <li>','    <li>','<ul>'];
@@ -39,13 +44,14 @@ function handlekeyup(event: any) {
         for (let i = 0; i < Object.keys(words).length; i++) {
         if (store.wordsNumber == i) {
             for (let j = 0; j < Object.keys(words)[i].length; j++) {
-                if ( store.wordletterNumber == j && event.key == Object.keys(words)[i][j] && count == 0) {
+                if ( store.wordletterNumber == j && event.key == Object.keys(words)[i][j]) {
                     store.wordletterNumber++;
                     count++
                       if (Object.keys(words)[i].length === store.wordletterNumber) { 
                         store.wordsNumber++;
                         store.wordletterNumber = 0;
                     }
+                    return;
                 }
 
             }
@@ -78,7 +84,6 @@ async function fetchRandomText() {
       'x-rapidapi-host': 'lorem-ipsum-api.p.rapidapi.com'
     }
   };
-  console.log('aaaaaaa')
   try {
     const response = await fetch(url, options);
     sentence.value = await response.json();
@@ -107,6 +112,17 @@ watch(() =>props.playing,() => {
         if (!props.playing) {
         store.wordsNumber = -1;
     } else {
+        words = {};
+        for ( let word of wordsArray) {
+            let key = Object.keys(word);
+            const randomIndex = Math.floor(Math.random() * key.length);
+            const randomKey = key[randomIndex];
+            console.log(randomKey);
+            console.log(word[randomKey])
+            const randomValue = word[randomKey];
+            words[randomKey] = randomValue;
+        }
+        console.log(words);
         store.wordsNumber = 0
     }
     }
