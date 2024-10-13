@@ -68,7 +68,7 @@ watch(() =>store.isStop, ()=> {
     <li>▽ Game-folder</li>
       <ul class="ul-2"><li @click="countdown">START</li><li @click="reCountdown">RESTART</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Settings</li>
-      <ul class="ul-2"><li @click="navigateHome"><router-link v-bind:to="'/'" >TOP</router-link></li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
+      <ul class="ul-2"><li @click="navigateHome"><router-link v-bind:to="'/'" >TOP</router-link></li><li @click="navigateHome"><router-link v-bind:to="'/rule'" >Rule</router-link></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
     <ul class="ul-2"><li class="text-danger">Time<span>{{ store.formatElapsedTime }}</span></li><li class="text-warning" v-if="gameStyleStore.gameStyle == 'thirtyWords'">Words <span v-if="store.wordsNumber >=0">{{ store.wordsNumber }}</span></li><li class="text-warning" v-else>Sentences <span v-if="store.sentencesNumber >=0">{{ store.sentencesNumber }}</span></li></ul>
     <li>▷ Dummy Folder</li>

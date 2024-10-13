@@ -3,6 +3,7 @@ import { defineProps, defineEmits, watch } from 'vue'
 import { useStore, gameStyle } from '../stores/index' 
 import Cookies from 'js-cookie';
 
+
 const store = useStore();
 const gameStyleStore = gameStyle();
 

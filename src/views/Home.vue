@@ -22,7 +22,7 @@ function ifChange() {
   <TheHeader></TheHeader>
   <div class="d-flex justify-content-evenly mt-5" v-if="isPlayStyle">
     <HomePlayButton playStyle="normal" :isPlayStyle=isPlayStyle @changeHomeState="ifChange"></HomePlayButton>
-    <HomePlayButton playStyle="noMusic" :isPlayStyle=isPlayStyle @changeHomeState="ifChange"></HomePlayButton>
+    <router-link v-bind:to="'/rule'"><button class="home-button">Rule</button></router-link>
   </div>
   <div v-else>
     <div class="d-flex justify-content-evenly mt-5">
