@@ -26,7 +26,7 @@ function checkGameStyle() {
 <template>
     <div>
     <router-link v-bind:to="'/play'" class="d-block"><button class="home-button " @click="checkGameStyle">{{ NamedButton() }}</button></router-link>
-    <p v-if="props.gameStyle == 'thirtyWords'">New Record:{{ Cookies.get('wordTime') }}</p>
+    <p v-if="props.gameStyle == 'twentyWords'">New Record:{{ Cookies.get('wordTime') }}</p>
     <p v-if="props.gameStyle == 'threeSentences'">New Record:{{ Cookies.get('sentenceTime') }}</p>
     </div>
 </template>

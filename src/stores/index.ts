@@ -8,7 +8,6 @@ export const useStore = defineStore({
         wordsNumber: -1,
         sentencesNumber: -1,
         formatElapsedTime: ref<string>('0:00'),
-        gameStyle: null as string | null | undefined,
         sentenceLetterNumber: 0,
         wordletterNumber: 0,
         sentencesArray: null as null | String[],
@@ -22,6 +21,9 @@ export const useStore = defineStore({
         },
         countSentencesNumber() {
             this.sentencesNumber ++;
+        },
+        setSentences(sentences: String[]) {
+            this.sentencesArray = sentences;
         }
     },
 })

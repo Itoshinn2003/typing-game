@@ -13,6 +13,7 @@ const store = useStore();
 const gameStyleStore = gameStyle();
 const props = defineProps(['playing']);
 let sentence = ref< null | Response>(null);
+let sentencesArray = ref< null | String[]>(null);
 
 interface StringObject {
     [key: string]: string; 
@@ -31,7 +32,7 @@ onUpdated(() => {
 })
 
 // もっと簡潔なコードにしたい
-document.addEventListener('keyup', handlekeyup);
+document.addEventListener('keydown', handlekeyup);
 onBeforeUnmount(()=>{
    document.removeEventListener('keyup', handlekeyup);
 })
@@ -57,15 +58,16 @@ function handlekeyup(event: any) {
         }
     }
     } else {
-       for (let i = 0; i < store.sentencesArray.length; i++) {
+       for (let i = 0; i < sentencesArray.value.length; i++) {
            if (store.sentencesNumber == i) {
-            for (let j = 0; j < store.sentencesArray[i].length; j++) {
-                if ( store.sentenceLetterNumber == j && event.key == store.sentencesArray[i][j]) {
+            for (let j = 0; j < sentencesArray.value[i].length; j++) {
+                if ( store.sentenceLetterNumber == j && event.key == sentencesArray.value[i][j]) {
                     store.sentenceLetterNumber++;
-                    if (store.sentencesArray[i].length === store.sentenceLetterNumber) {
+                    if (sentencesArray.value[i].length === store.sentenceLetterNumber) {
                         store.sentencesNumber++;
                         store.sentenceLetterNumber = 0;
                     }
+                    return;
                 }
             }
            }
@@ -87,7 +89,7 @@ async function fetchRandomText() {
     const response = await fetch(url, options);
     sentence.value = await response.json();
     if (typeof sentence.value?.text === 'string') {
-        store.sentencesArray = (sentence.value?.text as string).split('. ');
+        sentencesArray.value = (sentence.value?.text as string).split('. ');
     }
   } catch (error) {
     console.error(error);
@@ -103,7 +105,7 @@ watch(() =>props.playing,() => {
             store.sentencesNumber = -1;
         } else {
             fetchRandomText();
-            store.sentencesNumber = 0
+            store.sentencesNumber = 0;
         }
     } else {
         if (!props.playing) {
@@ -131,7 +133,7 @@ watch(() => store.wordsNumber,() => {
 }, {deep:true})
 
 watch(() =>store.sentencesNumber, () => {
-    if (store.sentencesNumber ==  store.sentencesArray.length) {
+    if (store.sentencesNumber ==  sentencesArray.value?.length) {
         store.stopStopWacth();
         if ( Cookies.get('sentenceTime') == undefined || Cookies.get('sentenceTime') >= store.formatElapsedTime) {
         Cookies.set('sentenceTime', store.formatElapsedTime, { expires: 1000 });
@@ -149,8 +151,8 @@ watch(() =>store.sentencesNumber, () => {
             </li>
         </ul>
         <ul v-else>
-            <li v-for="(word, index) in store.sentencesArray" :key="index">
-                <li class="d-inline fw-bolder text-gray" v-if=" index <= store.sentencesNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word, index2) in store.sentencesArray[index]" ><span :class="{ textWhite: store.sentenceLetterNumber > index2 || index < store.sentencesNumber  }">{{ store.sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+            <li v-for="(word, index) in sentencesArray" :key="index">
+                <li class="d-inline fw-bolder text-gray" v-if=" index <= store.sentencesNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word, index2) in sentencesArray[index]" ><span :class="{ textWhite: store.sentenceLetterNumber > index2 || index < store.sentencesNumber  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <pre><code class="language-html">{{ endCode }}</code></pre>
