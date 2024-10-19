@@ -28,61 +28,17 @@ export let words: { [key: string]: string } = {'apple':'りんご','budou':'ぶ�
 
 // 各オブジェクトの型
 type Item = {
-    property1: string;
-    property2: string;
-    property3: string;
-    property4: string;
-    property5: string;
-    property6: string;
-    property7: string;
-    property8: string;
-    property9: string;
-    property10: string;
-    property11: string;
-    property12: string;
-    property13: string;
-    property14: string;
-    property15: string;
-    property16: string;
-    property17: string;
-    property18: string;
-    property19: string;
-    property20: string;
+    [key: string]: string;
 };
 
 // 20個のオブジェクトを持つ配列の型
 type ItemArray = Item[];
 
-// 例: ItemArray型の配列を作成
-const Items: ItemArray = [
-    {
-        property1: 'value1',
-        property2: 'value2',
-        property3: 'value3',
-        property4: 'value4',
-        property5: 'value5',
-        property6: 'value6',
-        property7: 'value7',
-        property8: 'value8',
-        property9: 'value9',
-        property10: 'value10',
-        property11: 'value11',
-        property12: 'value12',
-        property13: 'value13',
-        property14: 'value14',
-        property15: 'value15',
-        property16: 'value16',
-        property17: 'value17',
-        property18: 'value18',
-        property19: 'value19',
-        property20: 'value20'
-    },
-    // 他の19個のオブジェクトも追加
-];
 
 
 
-export const wordsArray: Items = [{
+
+export const wordsArray: ItemArray = [{
     'apple': 'りんご', 'book': '本', 'car': '車', 'cat': '猫', 'dog': '犬',
     'banana': 'バナナ', 'orange': 'オレンジ', 'friend': '友達', 'school': '学校',
     'teacher': '先生', 'pen': 'ペン', 'table': 'テーブル', 'chair': '椅子',

@@ -5,7 +5,7 @@ import { useStore } from '../stores/index'
 import { ref } from "vue"
  
 const store = useStore();
-let intervalId: number | null | NodeJS.Timeout;
+let intervalId: number | null ;
 let resetInterval= ref<boolean>(false);
 let Seconds = ref(4);
 let playing = ref<boolean>(false);
@@ -15,14 +15,16 @@ function countdown(seconds: number) {
     clearInterval(intervalId); 
     intervalId = null;
    }
-   intervalId = setInterval(() => {
+   intervalId = window.setInterval(() => {
     if (seconds == 0) {
       Seconds.value = seconds;
       seconds--;
       playing.value = true;
     } else if (seconds < 0) {
       Seconds.value = -1;
-      clearInterval(intervalId);
+      if (typeof intervalId == 'number') {
+        clearInterval(intervalId);
+      }
     } else {
       Seconds.value = seconds;
       seconds--;
@@ -44,14 +46,16 @@ function reCountdown(seconds: number) {
     clearInterval(intervalId); 
     intervalId = null;
    }
-   intervalId = setInterval(() => {
+   intervalId = window.setInterval(() => {
     if (seconds == 0) {
       Seconds.value = seconds;
       seconds--;
       playing.value = true;
     } else if (seconds < 0) {
       Seconds.value = -1;
-      clearInterval(intervalId);
+      if (typeof intervalId == 'number') {
+        clearInterval(intervalId);
+      }
     } else {
       Seconds.value = seconds;
       seconds--;

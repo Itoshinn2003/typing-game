@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, watch, ref } from "vue"
-import  router  from "../router"
+import { defineEmits, defineProps, watch } from "vue"
 import { useStore, gameStyle } from '../stores/index' 
  
 const store = useStore();
 const gameStyleStore = gameStyle();
-const Router=router;
 const props = defineProps(['playing', 'isStop', 'resetInterval', 'words']);
 const emits = defineEmits(['countdown', 'reCountdown']);
-let interval;
+let interval:  number | null;
 let elapsedTime = 0; 
 store.formatElapsedTime = '0:00';
 function formatTime(seconds: number) {
@@ -23,7 +21,7 @@ function updateDisplay() {
 
 function startStopWatch() {
     if (props.playing) { 
-        interval = setInterval(() => {
+        interval = window.setInterval(() => {
             elapsedTime++;
             updateDisplay();
         }, 1000); 
@@ -36,7 +34,9 @@ function reCountdown() {
   emits('reCountdown', 3);
 }
 function navigateHome() {
-      clearInterval(interval);
+      if (typeof interval == 'number') {
+        clearInterval(interval);
+      }
       interval = null;
       elapsedTime = 0;
       store.wordsNumber = -1;
@@ -49,14 +49,18 @@ watch(() =>props.playing, () => {
   if ( props.playing ){
     startStopWatch();
   } else {
-    clearInterval(interval);
+      if (typeof interval == 'number') {
+        clearInterval(interval);
+      }
     interval = null;
     elapsedTime = 0;
   }}, {deep: true});
 
 watch(() =>store.isStop, ()=> {
   if ( store.isStop ) {
-    clearInterval(interval);
+      if (typeof interval == 'number') {
+        clearInterval(interval);
+      }
   }
 }, { deep:true});
 </script>

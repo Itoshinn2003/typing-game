@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import TheHeader from './components/TheHeader.vue'
 import { ref, watch, } from "vue"
 import { useRoute } from "vue-router";
 

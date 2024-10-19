@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, watch } from 'vue'
-import { useStore, gameStyle } from '../stores/index' 
+import { defineProps } from 'vue'
+import { gameStyle } from '../stores/index' 
 import Cookies from 'js-cookie';
 
-
-const store = useStore();
 const gameStyleStore = gameStyle();
 
 const props = defineProps({

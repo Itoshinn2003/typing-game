@@ -13,7 +13,7 @@ const store = useStore();
 const gameStyleStore = gameStyle();
 const props = defineProps(['playing']);
 let sentence = ref< null | Response>(null);
-let sentencesArray = ref< null | String[]>(null);
+let sentencesArray = ref< [] | String[]>([]);
 
 interface StringObject {
     [key: string]: string; 
@@ -124,19 +124,31 @@ watch(() =>props.playing,() => {
     }
 },{deep:true})
 watch(() => store.wordsNumber,() => {
+    const wordTime = Cookies.get('wordTime');
     if (store.wordsNumber == Object.keys(words).length) {
         store.stopStopWacth();
-        if ( Cookies.get('wordTime') == undefined || Cookies.get('wordTime') >= store.formatElapsedTime) {
+        if ( wordTime == undefined ) {
         Cookies.set('wordTime', store.formatElapsedTime, { expires: 1000 });
+        }
+        if ( typeof wordTime == 'string') {
+            if ( wordTime >= store.formatElapsedTime ) {
+                Cookies.set('wordTime', store.formatElapsedTime, { expires: 1000 });
+            }
         }
     }
 }, {deep:true})
 
 watch(() =>store.sentencesNumber, () => {
+    const sentenceTime = Cookies.get('sentenceTime');
     if (store.sentencesNumber ==  sentencesArray.value?.length) {
         store.stopStopWacth();
-        if ( Cookies.get('sentenceTime') == undefined || Cookies.get('sentenceTime') >= store.formatElapsedTime) {
-        Cookies.set('sentenceTime', store.formatElapsedTime, { expires: 1000 });
+        if ( sentenceTime == undefined ) {
+          Cookies.set('sentenceTime', store.formatElapsedTime, { expires: 1000 });
+        }
+        if ( typeof sentenceTime == 'string' ) {
+            if ( sentenceTime >= store.formatElapsedTime ) {
+                Cookies.set('sentenceTime', store.formatElapsedTime, { expires: 1000 });
+            }
         }
     }
 })
@@ -147,12 +159,12 @@ watch(() =>store.sentencesNumber, () => {
         <pre><code class="language-html">{{ firstCode }}</code></pre>
         <ul v-if="gameStyleStore.gameStyle == 'twentyWords'">
             <li v-for="(word, index) in Object.keys(words)" :key="index">
-                <li class="d-inline fw-bolder" v-if=" index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word2, index2) in word" class="text-gray" ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ word[index2] }}</span></span>: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+                <li class="d-inline fw-bolder" v-if=" index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in word" class="text-gray" ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ word[index2] }}</span></span>: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <ul v-else>
-            <li v-for="(word, index) in sentencesArray" :key="index">
-                <li class="d-inline fw-bolder text-gray" v-if=" index <= store.sentencesNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(word, index2) in sentencesArray[index]" ><span :class="{ textWhite: store.sentenceLetterNumber > index2 || index < store.sentencesNumber  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+            <li v-for="(_, index) in sentencesArray" :key="index">
+                <li class="d-inline fw-bolder text-gray" v-if=" index <= store.sentencesNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in sentencesArray[index] " ><span :class="{ textWhite: store.sentenceLetterNumber > index2 || index < store.sentencesNumber  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <pre><code class="language-html">{{ endCode }}</code></pre>

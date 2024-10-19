@@ -13,21 +13,24 @@
     <title>TYPING-CODE</title>
   </head>
   <script>
-    function checkWindowSize() {
-            const width = window.innerWidth;
+    function checkWindowStyle() {
+      const userAgent = navigator.userAgent;
 
-            if (width < 1000) {
-                // 1000px以下の場合は機能を無効化
-                document.getElementById('app').style.display = 'none';
-                alert('ウィンドウの幅が1000px未満です。この機能は使用できません。');
-            } else {
-                // 1000px以上の場合は機能を有効化
-                document.getElementById('app').style.display = 'block';
-            }
-        }
+      // モバイルデバイスかどうかをチェック
+      const isMobile = /Mobile|webOS|iPhone|iPad|Android/.test(userAgent);
 
-        window.onload = checkWindowSize; 
-        window.onresize = checkWindowSize;
+      if (isMobile) {
+        // モバイルデバイスの場合は機能を無効化
+        document.getElementById('app').style.display = 'none';
+        alert('このアプリはPC専用です。\n This app is for PC only.');
+      } else {
+        // パソコンの場合は機能を有効化
+        document.getElementById('app').style.display = 'block';
+      }
+      }
+
+        window.onload = checkWindowStyle; 
+        window.onresize = checkWindowStyle;
 </script>
   <body>
     <div id="app"></div>
