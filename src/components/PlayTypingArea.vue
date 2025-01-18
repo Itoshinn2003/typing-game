@@ -39,41 +39,27 @@ onBeforeUnmount(()=>{
 
 
 function handlekeyup(event: any) {
-    let count =0;
+    // こっから
     if (gameStyleStore.gameStyle == 'twentyWords') {
-        for (let i = 0; i < Object.keys(words).length; i++) {
-        if (store.wordsNumber == i) {
-            for (let j = 0; j < Object.keys(words)[i].length; j++) {
-                if ( store.wordletterNumber == j && event.key == Object.keys(words)[i][j]) {
-                    store.wordletterNumber++;
-                    count++
-                      if (Object.keys(words)[i].length === store.wordletterNumber) { 
-                        store.wordsNumber++;
-                        store.wordletterNumber = 0;
-                    }
-                    return;
-                }
-
+        if ( event.key == Object.keys(words)[store.wordsNumber][store.wordletterNumber]) {
+            store.wordletterNumber++;
+            if (Object.keys(words)[store.wordsNumber].length === store.wordletterNumber) { 
+                store.wordsNumber++;
+                store.wordletterNumber = 0;
+            }
+        }
+    // ここまでを考える
+    } else {
+        if ( event.key == sentencesArray.value[store.sentencesNumber][store.sentenceLetterNumber]) {
+            store.sentenceLetterNumber++;
+            if (sentencesArray.value[store.sentencesNumber].length === store.sentenceLetterNumber) {
+                    store.sentencesNumber++;
+                    store.sentenceLetterNumber = 0;
             }
         }
     }
-    } else {
-       for (let i = 0; i < sentencesArray.value.length; i++) {
-           if (store.sentencesNumber == i) {
-            for (let j = 0; j < sentencesArray.value[i].length; j++) {
-                if ( store.sentenceLetterNumber == j && event.key == sentencesArray.value[i][j]) {
-                    store.sentenceLetterNumber++;
-                    if (sentencesArray.value[i].length === store.sentenceLetterNumber) {
-                        store.sentencesNumber++;
-                        store.sentenceLetterNumber = 0;
-                    }
-                    return;
-                }
-            }
-           }
-       }
-    }
 }
+           
 
 
 async function fetchRandomText() {
