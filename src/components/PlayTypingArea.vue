@@ -31,7 +31,7 @@ onUpdated(() => {
     Prism.highlightAll();
 })
 
-// もっと簡潔なコードにしたい
+
 document.addEventListener('keydown', handlekeyup);
 onBeforeUnmount(()=>{
    document.removeEventListener('keyup', handlekeyup);
@@ -39,7 +39,6 @@ onBeforeUnmount(()=>{
 
 
 function handlekeyup(event: any) {
-    // こっから
     if (gameStyleStore.gameStyle == 'twentyWords') {
         if ( event.key == Object.keys(words)[store.wordsNumber][store.wordletterNumber]) {
             store.wordletterNumber++;
@@ -48,7 +47,6 @@ function handlekeyup(event: any) {
                 store.wordletterNumber = 0;
             }
         }
-    // ここまでを考える
     } else {
         if ( event.key == sentencesArray.value[store.sentencesNumber][store.sentenceLetterNumber]) {
             store.sentenceLetterNumber++;
@@ -86,29 +84,22 @@ async function fetchRandomText() {
 
 
 watch(() =>props.playing,() => {
-    if ( gameStyleStore.gameStyle == 'threeSentences') {
-        if (!props.playing) {
-            store.sentencesNumber = -1;
+    if(props.playing) {
+        if ( gameStyleStore.gameStyle == 'threeSentences') {
+            fetchRandomText(); 
         } else {
-            fetchRandomText();
-            store.sentencesNumber = 0;
+            words = {};
+            for ( let word of wordsArray) {
+                let key = Object.keys(word);
+                const randomIndex = Math.floor(Math.random() * key.length);
+                const randomKey = key[randomIndex];
+                const randomValue = word[randomKey];
+                words[randomKey] = randomValue;
+            }
         }
-    } else {
-        if (!props.playing) {
-        store.wordsNumber = -1;
-    } else {
-        words = {};
-        for ( let word of wordsArray) {
-            let key = Object.keys(word);
-            const randomIndex = Math.floor(Math.random() * key.length);
-            const randomKey = key[randomIndex];
-            const randomValue = word[randomKey];
-            words[randomKey] = randomValue;
-        }
-        store.wordsNumber = 0
     }
-    }
-},{deep:true})
+    },{deep:true})
+
 watch(() => store.wordsNumber,() => {
     const wordTime = Cookies.get('wordTime');
     if (store.wordsNumber == Object.keys(words).length) {
@@ -143,14 +134,14 @@ watch(() =>store.sentencesNumber, () => {
     <PlayFakeTabs></PlayFakeTabs>
     <div class="text-white typing-word">
         <pre><code class="language-html">{{ firstCode }}</code></pre>
-        <ul v-if="gameStyleStore.gameStyle == 'twentyWords'">
+        <ul v-if="gameStyleStore.gameStyle == 'twentyWords' && props.playing">
             <li v-for="(word, index) in Object.keys(words)" :key="index">
-                <li class="d-inline fw-bolder" v-if=" index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in word" class="text-gray" ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ word[index2] }}</span></span>: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+                <li class="d-inline fw-bolder" v-if="index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in word" class="text-gray" ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ word[index2] }}</span></span>: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
-        <ul v-else>
+        <ul v-else-if="gameStyleStore.gameStyle == 'threeSentences' && props.playing">
             <li v-for="(_, index) in sentencesArray" :key="index">
-                <li class="d-inline fw-bolder text-gray" v-if=" index <= store.sentencesNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in sentencesArray[index] " ><span :class="{ textWhite: store.sentenceLetterNumber > index2 || index < store.sentencesNumber  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+                <li class="d-inline fw-bolder text-gray" v-if="index <= store.sentencesNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in sentencesArray[index] " ><span :class="{ textWhite: store.sentenceLetterNumber > index2 || index < store.sentencesNumber  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <pre><code class="language-html">{{ endCode }}</code></pre>

@@ -5,8 +5,8 @@ export const useStore = defineStore({
     id: 'Store',
     state: () => ({
         isStop: false,
-        wordsNumber: -1,
-        sentencesNumber: -1,
+        wordsNumber: 0,
+        sentencesNumber: 0,
         formatElapsedTime: ref<string>('0:00'),
         sentenceLetterNumber: 0,
         wordletterNumber: 0,
@@ -24,7 +24,15 @@ export const useStore = defineStore({
         },
         setSentences(sentences: String[]) {
             this.sentencesArray = sentences;
-        }
+        },
+        resetNumber() {
+            this.isStop = false,
+            this.formatElapsedTime ='0:00';
+            this.wordsNumber = 0;
+            this.sentencesNumber = 0;
+            this.sentenceLetterNumber = 0;
+            this.wordletterNumber = 0;
+        },
     },
 })
 export const gameStyle = defineStore({

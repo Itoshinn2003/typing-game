@@ -8,7 +8,6 @@ const props = defineProps(['playing', 'isStop', 'resetInterval', 'words']);
 const emits = defineEmits(['countdown', 'reCountdown']);
 let interval:  number | null;
 let elapsedTime = 0; 
-store.formatElapsedTime = '0:00';
 function formatTime(seconds: number) {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -39,11 +38,8 @@ function navigateHome() {
       }
       interval = null;
       elapsedTime = 0;
-      store.wordsNumber = -1;
-      store.sentencesNumber = -1;
-      store.sentenceLetterNumber = 0;
-      store.wordletterNumber = 0;
-    }
+      store.resetNumber;
+}
 
 watch(() =>props.playing, () => {
   if ( props.playing ){
@@ -72,7 +68,7 @@ watch(() =>store.isStop, ()=> {
     <li>▽ Settings</li>
       <ul class="ul-2"><li @click="navigateHome"><router-link v-bind:to="'/'" >TOP</router-link></li><li @click="navigateHome"><router-link v-bind:to="'/rule'" >Rule</router-link></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
-    <ul class="ul-2"><li class="text-danger">Time<span>{{ store.formatElapsedTime }}</span></li><li class="text-warning" v-if="gameStyleStore.gameStyle == 'twentyWords'">Words <span v-if="store.wordsNumber >=0">{{ store.wordsNumber }}</span></li><li class="text-warning" v-else>Sentences <span v-if="store.sentencesNumber >=0">{{ store.sentencesNumber }}</span></li></ul>
+    <ul class="ul-2"><li class="text-danger">Time<span>{{ store.formatElapsedTime }}</span></li><li class="text-warning" v-if="gameStyleStore.gameStyle == 'twentyWords'">Words <span>{{ store.wordsNumber }}</span></li><li class="text-warning" v-else>Sentences <span v-if="store.sentencesNumber >=0">{{ store.sentencesNumber }}</span></li></ul>
     <li>▷ Dummy Folder</li>
 
 </ul>

@@ -37,10 +37,10 @@ function ifChange() {
 <style>
 .contact{
     position: fixed;
-    bottom: 0; /* 画面の底に固定 */
-    left: 0; /* 左端に配置 */
-    right: 0; /* 右端に配置 */
-    text-align: center; /* 中央寄せ */
+    bottom: 0; 
+    left: 0; 
+    right: 0;
+    text-align: center; 
 }
 </style>
 
