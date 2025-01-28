@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, watch } from "vue"
-import { useStore, gameStyle } from '../stores/index' 
+import { defineEmits, watch } from "vue"
+import { useStore } from '../stores/index' 
  
 const store = useStore();
-const gameStyleStore = gameStyle();
-const props = defineProps(['isStop', 'resetInterval', 'words']);
 const emits = defineEmits(['countdown', 'reCountdown']);
 let interval:  number | null;
 let elapsedTime = 0; 
@@ -38,7 +36,8 @@ function navigateHome() {
       }
       interval = null;
       elapsedTime = 0;
-      store.resetNumber;
+      store.resetNumber();
+      store.playing = false;
 }
 
 watch(() =>store.playing, () => {
@@ -59,6 +58,11 @@ watch(() =>store.isStop, ()=> {
       }
   }
 }, { deep:true});
+
+
+window.addEventListener("popstate", () => {
+    navigateHome()
+});
 </script>
 
 <template>

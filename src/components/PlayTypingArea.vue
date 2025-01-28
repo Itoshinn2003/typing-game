@@ -21,8 +21,8 @@ interface StringObject {
 let words: StringObject = {};
 
 
-const middleFirstCode: String[] =['<h1>','<p>','<ul>','    <textarea>','<ul>','    <li>','    <li>','<ul>'];
-const middleEndCode: String[] =['</h1>','</p>','<ul>','</textarea>','</ul>','</li>','</li>','</ul>'];
+const middleFirstCode = ['<h1>','<p>','<ul>','    <textarea>','<ul>','    <li>','    <li>','<ul>'];
+const middleEndCode = ['</h1>','</p>','<ul>','</textarea>','</ul>','</li>','</li>','</ul>'];
 onMounted(() => {
     Prism.highlightAll();
 });
