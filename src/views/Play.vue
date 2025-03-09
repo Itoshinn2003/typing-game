@@ -6,55 +6,43 @@ import { ref } from "vue"
  
 const store = useStore();
 let intervalId: number | null ;
-let resetInterval= ref<boolean>(false);
-let Seconds = ref(4);
-function countdown(seconds: number) {
+let seconds = ref(4);
+function countdown() {
+  seconds.value = 4;
   if (!store.playing) {
-   if (intervalId) {
-    clearInterval(intervalId); 
-    intervalId = null;
-   }
-   intervalId = window.setInterval(() => {
-    if (seconds == 0) {
-      Seconds.value = seconds;
-      seconds--;
+    if (intervalId) {
+      clearInterval(intervalId);
+    }
+    intervalId = window.setInterval(() => {
+    seconds.value--;
+    if (seconds.value == 0) {
       store.playing = true;
-    } else if (seconds < 0) {
-      Seconds.value = -1;
+    } else if (seconds.value < 0) {
       if (typeof intervalId == 'number') {
         clearInterval(intervalId);
       }
-    } else {
-      Seconds.value = seconds;
-      seconds--;
     }
   }, 1000); 
+  }
 }
-}
-function reCountdown(seconds: number) {
+function reCountdown() {
+  seconds.value = 4;
   if (store.playing) {
       store.playing = false;
   }
   store.resetNumber();
-  resetInterval.value = true;
-   if (intervalId) {
+  if (intervalId) {
     clearInterval(intervalId); 
-    intervalId = null;
-   }
-   intervalId = window.setInterval(() => {
-    if (seconds == 0) {
-      Seconds.value = seconds;
-      seconds--;
-      store.playing = true;
-    } else if (seconds < 0) {
-      Seconds.value = -1;
-      if (typeof intervalId == 'number') {
-        clearInterval(intervalId);
-      }
-    } else {
-      Seconds.value = seconds;
-      seconds--;
+  }
+  intervalId = window.setInterval(() => {
+  seconds.value--;
+  if (seconds.value == 0) {
+    store.playing = true;
+  } else if (seconds.value < 0) {
+    if (typeof intervalId == 'number') {
+      clearInterval(intervalId);
     }
+  }
   }, 1000); 
 
 }
@@ -63,12 +51,12 @@ function reCountdown(seconds: number) {
 <template>
     <div class="row bg-grey" >
         <div class="col-2 sidebar">
-          <PlaySideBar v-on:countdown="countdown" v-on:reCountdown="reCountdown" :resetInterval="resetInterval"></PlaySideBar>
+          <PlaySideBar v-on:countdown="countdown" v-on:reCountdown="reCountdown"></PlaySideBar>
         </div>
         <div class="col-10 rightside">
           <div class="countdown">
-            <p v-if="Seconds > 0 && Seconds < 4" class="text-white">{{  Seconds }}</p>
-            <p v-else-if="Seconds == 0" class="text-white">START</p>
+            <p v-if="seconds > 0 && seconds < 4" class="text-white">{{ seconds }}</p>
+            <p v-else-if="seconds == 0" class="text-white">START</p>
           </div>
           <PlayTypingArea></PlayTypingArea>
         </div>

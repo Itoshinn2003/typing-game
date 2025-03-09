@@ -6,56 +6,52 @@ const store = useStore();
 const emits = defineEmits(['countdown', 'reCountdown']);
 let interval:  number | null;
 let elapsedTime = 0; 
-function formatTime(seconds: number) {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+
+function countdown() {
+  emits('countdown');
+}
+function reCountdown() {
+  emits('reCountdown');
 }
 
-function updateDisplay() {
-    store.formatElapsedTime = formatTime(elapsedTime);
+function formatTime(seconds: number) {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  store.formatElapsedTime = `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
 function startStopWatch() {
-    if (store.playing) { 
-        interval = window.setInterval(() => {
-            elapsedTime++;
-            updateDisplay();
-        }, 1000); 
-    }
-}
-function countdown() {
-    emits('countdown',3);
-}
-function reCountdown() {
-  emits('reCountdown', 3);
+  if (store.playing) { 
+    interval = window.setInterval(() => {
+      elapsedTime++;
+      formatTime(elapsedTime);
+    }, 1000); 
+  }
 }
 function navigateHome() {
-      if (typeof interval == 'number') {
-        clearInterval(interval);
-      }
-      interval = null;
-      elapsedTime = 0;
-      store.resetNumber();
-      store.playing = false;
+  if (typeof interval == 'number') {
+    clearInterval(interval);
+  }
+  elapsedTime = 0;
+  store.resetNumber();
+  store.playing = false;
 }
 
 watch(() =>store.playing, () => {
   if ( store.playing ){
     startStopWatch();
   } else {
-      if (typeof interval == 'number') {
-        clearInterval(interval);
-      }
-    interval = null;
+    if (typeof interval == 'number') {
+      clearInterval(interval);
+    }
     elapsedTime = 0;
   }}, {deep: true});
 
 watch(() =>store.isStop, ()=> {
   if ( store.isStop ) {
-      if (typeof interval == 'number') {
-        clearInterval(interval);
-      }
+    if (typeof interval == 'number') {
+      clearInterval(interval);
+    }
   }
 }, { deep:true});
 
@@ -70,7 +66,7 @@ window.addEventListener("popstate", () => {
     <li>▽ Game-folder</li>
       <ul class="ul-2"><li @click="countdown">START</li><li @click="reCountdown">RESTART</li><li>dummy <i class="fa-solid fa-ghost"></i></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Settings</li>
-      <ul class="ul-2"><li @click="navigateHome"><router-link v-bind:to="'/'" >TOP</router-link></li><li @click="navigateHome"><router-link v-bind:to="'/rule'" >Rule</router-link></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
+      <ul class="ul-2"><li @click="navigateHome"><router-link v-bind:to="{name: 'Home'}">TOP</router-link></li><li @click="navigateHome"><router-link v-bind:to="{name: 'Rule'}" >Rule</router-link></li><li>dummy <i class="fa-solid fa-ghost"></i></li></ul>
     <li>▽ Situation</li>
     <ul class="ul-2"><li class="text-danger">Time<span>{{ store.formatElapsedTime }}</span></li><li class="text-warning">Words <span>{{ store.wordsNumber }}</span></li></ul>
     <li>▷ Dummy Folder</li>
