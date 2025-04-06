@@ -126,12 +126,12 @@ watch(() => store.wordsNumber,() => {
         <pre><code class="language-html">{{ firstCode }}</code></pre>
         <ul v-if="gameStyleStore.gameStyle == 'twentyWords' && store.playing">
             <li v-for="(word, index) in Object.keys(words)" :key="index">
-                <li class="d-inline fw-bolder" v-if="index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in word" class="text-gray" ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ word[index2] }}</span></span>: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+                <li class="d-inline fw-bolder" v-if="index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">{{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in word" class="text-gray" ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ word[index2] }}</span></span>: 「{{ words[word] }}」<pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <ul v-else-if="gameStyleStore.gameStyle == 'threeSentences' && store.playing">
             <li v-for="(_, index) in sentencesArray" :key="index">
-                <li class="d-inline fw-bolder text-gray" v-if="index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">        {{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in sentencesArray[index] " ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
+                <li class="d-inline fw-bolder text-gray" v-if="index <= store.wordsNumber"><pre class="d-inline"><code class="language-html">{{ middleFirstCode[index % 8] }}</code></pre><span v-for="(_, index2) in sentencesArray[index] " ><span :class="{ textWhite: store.wordletterNumber > index2 || index < store.wordsNumber  }">{{ sentencesArray[index][index2] }}</span></span><pre class="d-inline"><code class="language-html">{{ middleEndCode[index % 8] }}</code></pre></li>
             </li>
         </ul>
         <pre><code class="language-html">{{ endCode }}</code></pre>
